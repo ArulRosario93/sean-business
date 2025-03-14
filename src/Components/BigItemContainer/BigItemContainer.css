@@ -1,0 +1,67 @@
+
+.BigItemContainer{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.BidItemContainerImg{
+    flex: 1;
+    position: relative;
+    border-radius: 20px;
+}
+
+.BidItemContainerImg img{
+    transition: all 0.3s ease-in;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+    z-index: 1;
+    border-radius: 20px;
+}
+
+.BigItemContainerContentSceondaryImg{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    /* z-index: -1; */
+}
+
+.BigItemContainerContentSceondaryImg img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.BigItemContainerContent{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 0px;
+}
+
+.BigItemContainerContentHead{
+    font-weight: 500;
+    font-size: 1em;
+    letter-spacing: 1px;
+}
+
+.BigItemContainerContentPara{
+    font-size: .6em;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.BidItemContainerImg img:hover{
+    /* Zoom the image within the container*/
+    
+    opacity: 0;
+    
+    /* filter: blur(2px); */
+    /* transform: rotate(10deg); */
+}

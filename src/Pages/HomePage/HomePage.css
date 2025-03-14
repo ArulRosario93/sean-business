@@ -1,0 +1,26 @@
+
+.HomePage{
+    width: 100%;    
+    padding: 20px 40px;
+}
+
+.HomePageHead{
+    font-size: 1.5em;
+    font-weight: 500;
+    /* letter-spacing: 1px; */
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+.HomePageCollections{
+    display: grid;
+    /* Always have 4 items in rows */
+    grid-template-columns: auto auto auto auto;
+    /* grid-template-columns: repeat(auto-fit, minmax(200px, .1fr)); */
+    /* grid-template-rows: repeat(auto-fit, minmax(400px, .4fr)); */
+    gap: 20px; 
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+} 
