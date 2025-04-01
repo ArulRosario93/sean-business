@@ -21,6 +21,8 @@ const BigItemContainer = ( props ) => {
                 <h3 className="BigItemContainerContentHead">{props.name}</h3>
                 <p className="BigItemContainerContentPara"><span className="BigItemContainerContentLineThrough">Rs: {props.price}</span> Rs: {props.price   }</p>
             </div>
+
+            
         </div>
     );
 }

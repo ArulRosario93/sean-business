@@ -1,0 +1,199 @@
+
+.ProductPage{
+    position: relative;
+}
+
+.ProductPageFlex{
+    height: 180vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.ProductPageImgsContent{
+    flex: 1.3;
+    top: 0;
+    height: min-content;
+    position: sticky;
+    background-color: aquamarine;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-direction: column;
+}
+
+.ProductPageImgsContentImg{
+    height: 60vh;
+}
+
+.ProductPageImgsContentImg img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.ProductPageContent{
+    flex: 1;
+    padding: 0px 20px;
+    background-color: white;
+}
+
+.ProductPageContentTitle{
+    font-size: 1.3rem;
+    font-weight:500;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.ProductPageContentPrice{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.ProductPageContentPriceFinal{
+    color: rgb(230, 0, 0);
+    font-size: 1.3rem;
+}
+
+.ProductPageContentPriceBefore{
+    color: #00000088;
+    font-size: .8rem;
+    text-decoration:line-through;
+}
+
+.ProductPageContentPriceDiscount{
+    padding: 2px 5px;
+    font-size: .5rem;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(230, 0, 0);
+    border-radius: 30px;
+}
+
+.ProductPageContentMRP{
+    font-size: 0.8rem;
+    color: #000000b1;
+    margin-top: 10px;
+}
+
+.ProductPageContentColor{
+
+}
+
+.ProductPageContentColorTitle{
+    color: black;
+    font-size: .7rem;
+    font-weight: 600;
+}
+
+.ProductPageContentColorTitle span {
+    /* margin-left: 5px; */
+    font-weight: 300;
+    font-size: 0.8rem;
+    color: #000000cc;
+}
+
+.ProductPageContentColorDivs{
+
+    height: 30px;
+    width: 30px;
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 50px;
+}
+
+.ProductPageContentColorDivsCircle{
+    background-color: beige;
+    border-radius: 50px;
+    height: 100%;
+    width: 100%;
+}
+
+.ProductPageContentColorSizeTitle{
+    color: black;
+    font-size: .7rem;
+    font-weight: 600;
+    /* margin-top: 20px; */
+}
+
+.ProductPageContentColorSizeTitle span {
+    /* margin-left: 5px; */
+    font-weight: 300;
+    font-size: 0.8rem;
+    color: #000000cc;
+}
+
+.ProductPageContentColorSizeContainer{
+    display: flex;
+    gap: 5px;
+    flex-direction: row;
+}
+
+.ProductPageContentColorSizeContainerEachSelected{
+    padding: 10px;
+    border-radius: 3px;
+    background-color: black;
+    color: white;
+}
+.ProductPageContentColorSizeContainerEach{
+    padding: 10px;
+    border-radius: 3px;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.694);
+    border: 1px solid #ccc;
+}
+
+.ProductPageContentQuantity{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.ProductPageContentQuantityContainer{
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    padding: 6px 10px;
+    background-color: gainsboro;
+}
+
+.ProductPageContentAddToCart{
+    flex: 4;
+    padding: 6px;
+    border-radius: 3px;
+    color: black;
+    border: 1px solid black;
+    text-align: center;
+    background-color: white;
+}
+
+.ProductPageContentAddToCartContainer{
+    font-size: .8rem;
+}
+
+.ProductPageContentQuantityContainerNegative{
+    flex: 1;
+    text-align: center;
+}
+
+.ProductPageContentQuantityContainerInt{
+    flex: 4;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.ProductPageContentQuantityContainerPositive{
+    flex: 1;
+    text-align: center;
+}
+
+.ProductPageContentBuyitNow{
+    padding: 6px;
+    flex: 1;
+    font-size: .8rem;
+    text-align: center;
+    color: white;
+    background-color: rgb(230, 0, 0);
+}
