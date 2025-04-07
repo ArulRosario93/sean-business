@@ -1,7 +1,16 @@
 import React from "react";
 import "./ProductPage.css";
+import { useParams } from "react-router-dom";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import ShareIcon from '@mui/icons-material/Share';
+import Divider from "../../Components/Widgets/Divider/Divider";
 
 const ProductPage = (props) => {
+
+    const { id } = useParams();
+    console.log(id);
+
     return (
         <div className="ProductPage">
 
@@ -25,9 +34,11 @@ const ProductPage = (props) => {
                 </div>
                 <div className="ProductPageContent">
 
-                    <div>
+                    <div className="ProductPageContentTitleAndWishList">
                         <h3 className="ProductPageContentTitle">Endless Hope Graphic Printed Oversized T-Shirt - Multi Color</h3>
-                        {/* Icon */}
+                        <div className="ProductPageContentWishList">
+                            <FavoriteBorderIcon />
+                        </div>
                     </div>
 
                     <div className="ProductPageContentPrice">
@@ -51,12 +62,10 @@ const ProductPage = (props) => {
 
                     <div className="ProductPageContentColorSize">
 
-                        <p className="ProductPageContentColorSizeTitle">Size: <span>M</span></p>
+                        <p className="ProductPageContentColorSizeTitleHead">Size: <span>M</span></p>
 
                         <div className="ProductPageContentColorSizeTitle">
-
                             <div className="ProductPageContentColorSizeContainer">
-                                
                                 <div className="ProductPageContentColorSizeContainerEachSelected">
                                     S
                                 </div>
@@ -66,14 +75,12 @@ const ProductPage = (props) => {
                                 <div className="ProductPageContentColorSizeContainerEach">
                                     L
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
 
                     <div className="ProductPageContentQuantityAndAddtoCart">
-                        <p>Quality</p>
+                        <p className="ProductPageContentQuantityAndAddtoCartPara">Quality</p>
                         <div className="ProductPageContentQuantity">
                             
 
@@ -93,6 +100,29 @@ const ProductPage = (props) => {
                         <p>Buy It Now</p>
                     </div>
 
+                    <div className="ProductPageContentAsknShare">
+                        <div className="ProductPageContentAsk">
+                            <HelpOutlineIcon /> 
+                            <p>Ask a Question</p>
+                        </div>
+                        <div className="ProductPageContentShare">
+                            <ShareIcon />
+                            <p>Share</p>
+                        </div>
+                    </div>
+
+                    <Divider />
+
+                    <div className="ProductPageContentFreeShipping">
+                        <p className="ProductPageContentFreeShippingPara"><span className="ProductPageContentFreeShippingParaSpan">Free Shipping & Returns:</span> On all orders over ₹499, 7 day Easy Returns.</p>
+                    </div>
+
+                    <div className="ProductPageContentEstimatedDelivery">
+                        <p className="ProductPageContentEstimatedDeliveryPara"><span className="ProductPageContentEstimatedDeliveryParaSpan">Estimated Delivery:</span> Apr 13 - Apr 15.</p>
+                    </div>
+
+                    <Divider />
+                    
                 </div>
 
             </div>
