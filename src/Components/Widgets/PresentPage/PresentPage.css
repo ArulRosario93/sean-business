@@ -1,6 +1,7 @@
 .PresentPagePara{
-    font-size: 1.1rem;
-    color: rgb(34, 34, 34);
+    font-size: 1rem;
+    color: rgb(91, 91, 91);
     font-weight: 400;
     padding: 20px;
+    font-family: "Jost", sans-serif;
 }
