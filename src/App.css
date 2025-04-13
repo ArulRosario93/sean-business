@@ -12,3 +12,9 @@ body{
 .BigItemContainerContentLineThrough{
   text-decoration:line-through;
 }
+
+body::-webkit-scrollbar {
+  width: 5%;
+  background-color: aquamarine;
+  color: black;
+}

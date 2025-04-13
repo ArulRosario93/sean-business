@@ -2,6 +2,7 @@
 .ProductPage{
     position: relative;
     display: flex;
+    flex-direction: column;
     width: 90%;
     margin: auto;
 }
@@ -9,13 +10,14 @@
 .ProductPageFlex{
     
     /* height: 180vh; */
+    background-color: #ffffff;
     display: flex;
     gap: 40px;
     flex-direction: row;
 }
 
 .ProductPageImgsContent{
-    flex: 1.3;
+    flex: 1.5;
     top: 0;
     height: min-content;
     position: sticky;
@@ -51,7 +53,7 @@
     font-size: 2.2rem;
     flex: 5;
     font-weight:400;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     color: #333;
     font-family: "Jost", sans-serif;
 }
@@ -178,6 +180,8 @@
 .ProductPageContentColorSizeContainerEach{
     height: 45px;
     width: 45px;
+    user-select: none;
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -186,6 +190,11 @@
     background-color: white;
     color: rgba(0, 0, 0, 0.694);
     border: 1px solid #ccc;
+}
+
+.ProductPageContentColorSizeContainerEach:hover{
+    background-color: black;
+    color: white;
 }
 
 .ProductPageContentQuantityAndAddtoCart{
@@ -201,6 +210,7 @@
 }
 
 .ProductPageContentQuantity{
+    user-select: none;
     padding: 8px 0px;
 }
 
@@ -265,9 +275,11 @@
     padding: 15px;
     flex: 1;
     font-size: 1rem;
+    border-radius: 5px;
     text-align: center;
     font-family: "Jost", sans-serif;
     color: white;
+    cursor: pointer;
     background-color: rgb(230, 0, 0);
 }
 
@@ -302,7 +314,6 @@
 
 .ProductPageContentAsknShare{
     font-family: "Jost", sans-serif;
-
     padding: 30px 0px 10px;
     display: flex;
     gap: 20px;
@@ -316,4 +327,75 @@
     flex-direction: row;
     align-items: center;
     gap: 10px;
+}
+
+.ProductPageContentKeyHighlights{
+
+    margin: 30px 0px;
+    padding: 10px 0px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid rgb(198, 198, 198);
+
+}
+
+.ProductPageContentKeyHighlightsContent{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+}
+
+.ProductPageContentKeyHighlightsContentHead{
+
+    font-family: "Jost", sans-serif;
+    font-size: 1rem;
+    padding: 5px 10px;
+
+}
+
+.ProductPageContentKeyHighlightsContentDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ProductPageContentKeyHighlightsContentDivContainer{
+    flex: 1;
+    padding: 5px 10px;
+}
+
+.ProductPageContentKeyHighlightsContentDivContainerHead{
+    font-family: "Jost", sans-serif;
+    font-size: 1rem;
+    color: #333;
+}
+
+.ProductPageContentKeyHighlightsContentDivContainerPara{
+    font-family: "Jost", sans-serif;
+    font-size: 1rem;
+    color: black;
+}
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+
+    .ProductPage{
+        overflow: hidden;
+        height: auto;
+    }
+
+    .ProductPageFlex{
+        flex-direction: column;
+    }
+    .ProductPageContent{
+        padding: 0px;
+    }
+    .ProductPageImgsContent{
+        position: relative;
+    }
 }

@@ -1,0 +1,94 @@
+/* .ExpandContainer{
+    margin: 10px 0px;
+} */
+
+.ExpandContainerarrow{
+    transform: rotate(180deg);
+}
+
+.ExpandContainerTitle{
+
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin: 5px 10px; */
+    padding: 5px 0px;
+    user-select: none;
+
+}
+
+.ExpandContainerTitleHead{
+
+    font-family: "Jost", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    /* color: #333; */
+
+}
+
+.ExpandContainerContent{
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    height: 0px;
+}
+
+.ExpandContainerContentOpen{
+    /* animation: openSlow 0.5s forwards; */
+    opacity: 1;
+    visibility: visible;
+    max-height: 600px;
+    /* background-color: aqua; */
+}
+
+.ExpandContainerContentForProductDescription{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.ExpandContainerContentForProductDescriptionHead{
+    font-size: 1rem;
+    color: rgb(91, 91, 91);
+    font-weight: 600;
+    padding: 10px 0px;
+    font-family: "Jost", sans-serif;
+}
+
+.ExpandContainerContentForProductDescriptionHighlights{
+    padding: 20px 0px;
+}
+
+.ExpandContainerContentForProductDescriptionHighlightsPara{
+    font-size: 1rem;
+    color: rgb(91, 91, 91);
+    font-weight: 400;
+    /* padding: 20px; */
+    font-family: "Jost", sans-serif;
+}
+
+.ExpandContainerContentForProductDescriptionParaPara{
+    font-size: 1rem;
+    color: rgb(91, 91, 91);
+    font-weight: 400;
+    /* padding: 20px; */
+    font-family: "Jost", sans-serif;
+}
+
+.ExpandContainerContentForProductDescriptionHighlightsParaBold{
+    font-weight: 600;
+}
+
+@keyframes openSlow {
+    0% {
+        height: 0px; 
+        opacity: 0;
+
+    }
+    100% {
+        height: auto;
+        opacity: 1;
+        background-color: aqua;
+    }
+}

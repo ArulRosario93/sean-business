@@ -1,15 +1,34 @@
 import React from "react";
 import "./ProductPage.css";
-import { useParams } from "react-router-dom";
+import data from "../../Components/data.jsx";
+import { useParams, useLocation } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ShareIcon from '@mui/icons-material/Share';
 import Divider from "../../Components/Widgets/Divider/Divider";
+import ExpandContainer from "../../Components/Widgets/ExpandContainer/ExpandContainer";
+import SuggetionItem from "../../Components/Widgets/SuggestionItem/SuggestionItem";
 
-const ProductPage = (props) => {
+const ProductPage = (
+    // { title, finalPrice, secondaryPrice, discount, images, color, colorRGB, sizes, highlights }
+) => {
 
-    const { id } = useParams();
-    console.log(id);
+    const { state } = useLocation();
+
+    const { title, finalPrice, secondaryPrice, discount, images, color, colorRGB, sizes, highlights } = state;
+
+    const [size, setSize] = React.useState(sizes[0]);
+    const [quantity, setQuantity] = React.useState(1);
+
+    const handlePlus = () => {
+        quantity < 20 && quantity > 0 && setQuantity(quantity + 1);
+    }
+
+    const handleMinus = () => {
+        if(quantity > 1){
+            setQuantity(quantity - 1);
+        }   
+    }
 
     return (
         <div className="ProductPage">
@@ -18,33 +37,30 @@ const ProductPage = (props) => {
 
                 <div className="ProductPageImgsContent">
 
-                    <div className="ProductPageImgsContentImg">
-                        <img src="https://static.wixstatic.com/media/232e4c_d106e6869b9b4551ad7a000a06c9b92b~mv2.jpg/v1/fill/w_564,h_1015,al_c,q_85,enc_avif,quality_auto/232e4c_d106e6869b9b4551ad7a000a06c9b92b~mv2.jpg" alt="Product" />
-                    </div>
-                    <div className="ProductPageImgsContentImg">
-                        <img src="https://static.wixstatic.com/media/232e4c_d106e6869b9b4551ad7a000a06c9b92b~mv2.jpg/v1/fill/w_564,h_1015,al_c,q_85,enc_avif,quality_auto/232e4c_d106e6869b9b4551ad7a000a06c9b92b~mv2.jpg" alt="Product" />
-                    </div>
-                    <div className="ProductPageImgsContentImg">
-                        <img src="https://static.wixstatic.com/media/232e4c_d106e6869b9b4551ad7a000a06c9b92b~mv2.jpg/v1/fill/w_564,h_1015,al_c,q_85,enc_avif,quality_auto/232e4c_d106e6869b9b4551ad7a000a06c9b92b~mv2.jpg" alt="Product" />
-                    </div>
-                    <div className="ProductPageImgsContentImg">
-                        <img src="https://static.wixstatic.com/media/232e4c_d106e6869b9b4551ad7a000a06c9b92b~mv2.jpg/v1/fill/w_564,h_1015,al_c,q_85,enc_avif,quality_auto/232e4c_d106e6869b9b4551ad7a000a06c9b92b~mv2.jpg" alt="Product" />
-                    </div>
+                    {
+                        images.map((img, index) => {
+                            return (
+                                <div className="ProductPageImgsContentImg">
+                                    <img src={img} alt="Product" />
+                                </div>
+                            )
+                        })
+                    }
 
                 </div>
                 <div className="ProductPageContent">
 
                     <div className="ProductPageContentTitleAndWishList">
-                        <h3 className="ProductPageContentTitle">Endless Hope Graphic Printed Oversized T-Shirt - Multi Color</h3>
+                        <h3 className="ProductPageContentTitle">{title}</h3>
                         <div className="ProductPageContentWishList">
                             <FavoriteBorderIcon />
                         </div>
                     </div>
 
                     <div className="ProductPageContentPrice">
-                        <p className="ProductPageContentPriceFinal">Rs. 729.00</p>
-                        <p className="ProductPageContentPriceBefore">Rs. 1,999.00</p>
-                        <p className="ProductPageContentPriceDiscount">SAVE 64%</p>
+                        <p className="ProductPageContentPriceFinal">Rs. {finalPrice}</p>
+                        <p className="ProductPageContentPriceBefore">Rs. {secondaryPrice}</p>
+                        <p className="ProductPageContentPriceDiscount">SAVE {discount}%</p>
                     </div>
 
                     <p className="ProductPageContentMRP">MRP incl. of all taxes</p>
@@ -62,19 +78,21 @@ const ProductPage = (props) => {
 
                     <div className="ProductPageContentColorSize">
 
-                        <p className="ProductPageContentColorSizeTitleHead">Size: <span>M</span></p>
+                        <p className="ProductPageContentColorSizeTitleHead">Size: <span>{size}</span></p>
 
                         <div className="ProductPageContentColorSizeTitle">
                             <div className="ProductPageContentColorSizeContainer">
-                                <div className="ProductPageContentColorSizeContainerEachSelected">
-                                    S
-                                </div>
-                                <div className="ProductPageContentColorSizeContainerEach">
-                                    M
-                                </div>
-                                <div className="ProductPageContentColorSizeContainerEach">
-                                    L
-                                </div>
+
+                                {
+                                    sizes.map((item, index) => {
+                                        return (
+                                            <div className="ProductPageContentColorSizeContainerEach" style={item == size? {background: "black", color: 'white'}: {}} onClick={() => setSize(item)}>
+                                                {item}
+                                            </div>
+                                        )
+                                    })
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -85,9 +103,9 @@ const ProductPage = (props) => {
                             
 
                             <div className="ProductPageContentQuantityContainer">
-                                <p className="ProductPageContentQuantityContainerNegative">-</p>
-                                <p className="ProductPageContentQuantityContainerInt">5</p>
-                                <p className="ProductPageContentQuantityContainerPositive">+</p>
+                                <p className="ProductPageContentQuantityContainerNegative" onClick={handleMinus} style={quantity > 1? {color: "black"}: {color: 'gray'}}>-</p>
+                                <p className="ProductPageContentQuantityContainerInt">{quantity}</p>
+                                <p className="ProductPageContentQuantityContainerPositive" onClick={handlePlus} style={quantity < 20? {color: "black"}: {color: 'gray'}}>+</p>
                             </div>
                             <div className="ProductPageContentAddToCart">
                                 <p className="ProductPageContentAddToCartContainer">Add To Cart</p>
@@ -122,11 +140,49 @@ const ProductPage = (props) => {
                     </div>
 
                     <Divider />
-                    
+
+                    <div className="ProductPageContentKeyHighlights">
+                        <div className="ProductPageContentKeyHighlightsContent">
+                            <h1 className="ProductPageContentKeyHighlightsContentHead">Key Highlights</h1>
+                            <div className="ProductPageContentKeyHighlightsContentDiv">
+                                <div className="ProductPageContentKeyHighlightsContentDivContainer">
+                                    <p className="ProductPageContentKeyHighlightsContentDivContainerHead">Fit</p>
+                                    <p className="ProductPageContentKeyHighlightsContentDivContainerPara">OverSized Fit</p>
+                                    <Divider />
+                                </div>
+                                <div className="ProductPageContentKeyHighlightsContentDivContainer">
+                                    <p className="ProductPageContentKeyHighlightsContentDivContainerHead">Neck</p>
+                                    <p className="ProductPageContentKeyHighlightsContentDivContainerPara">Rounded Neck</p>
+                                    <Divider />
+                                </div>
+                            </div>
+                            <div className="ProductPageContentKeyHighlightsContentDiv">
+                                <div className="ProductPageContentKeyHighlightsContentDivContainer">
+                                    <p className="ProductPageContentKeyHighlightsContentDivContainerHead">Pattern</p>
+                                    <p className="ProductPageContentKeyHighlightsContentDivContainerPara">Printed</p>
+                                    <Divider />
+                                </div>
+                                <div className="ProductPageContentKeyHighlightsContentDivContainer">
+                                    <p className="ProductPageContentKeyHighlightsContentDivContainerHead">Sleeve</p>
+                                    <p className="ProductPageContentKeyHighlightsContentDivContainerPara">Regular Sleeve</p>
+                                    <Divider />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                        <ExpandContainer title="Product Description" />
+                        <ExpandContainer title="Returns, Exchange, & Refund Policy" />
+                        <ExpandContainer title="About Us" />
+
+
                 </div>
 
             </div>
 
+            <SuggetionItem SuggestedList={data} />
         </div>
     );
 }
