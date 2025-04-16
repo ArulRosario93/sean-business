@@ -2,11 +2,8 @@ import React from "react";
 import "./HomePage.css";
 import data from "../../Components/data.jsx";
 import ShowCase from "../../Components/Widgets/ShowCase/ShowCase";
-import BigItemContainer from "../../Components/BigItemContainer/BigItemContainer";
 
 const HomePage = () => {
-
-    
 
     return (
         <div className="HomePage">

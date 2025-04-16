@@ -1,0 +1,124 @@
+
+.AuthenticationPage{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+
+}
+
+.AuthenticationPageContainer{
+    height: 70vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background-color: rgb(247, 247, 247);
+    justify-content: center;
+}
+
+.AuthenticationPageContainer{
+    
+    background-image: url('https://threadheads.com/cdn/shop/files/White-oversized-couple-2.jpg?v=1707783264&width=2000');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+}
+
+.Login, .Register{
+    
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #3333333d;
+
+}
+
+.LoginFlex, .RegisterFlex{
+    width: 50%;
+    animation-name: ComeInSlowNow;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-around;
+
+}
+
+.LoginHead, .RegisterHead{
+
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: white;
+    font-family: "Jost", sans-serif;
+
+}
+
+.LoginButton, .RegisterButton{
+
+    font-size: 1rem;
+    font-family: "Jost", sans-serif;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    outline: none;
+    width: 100%;
+    margin-top:10px;
+    cursor: pointer;
+    border: 1px solid #333;
+    border-radius: 3px;
+    
+}
+
+.LoginOptions, .RegisterOptions{
+    font-size: .8rem;
+    font-family: "Jost", sans-serif;
+    color: #333;    
+}
+
+.LoginOptions p, .RegisterOptions p{
+    margin: auto;
+    cursor: pointer;
+    color: white;
+    font-weight: 500;
+    width: 100%;
+}
+
+.inputLogin, .inputRegister{
+    
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #333;
+    background-color: white;
+    border: 1px solid #333;
+    border-radius: 3px;
+    margin: auto;
+    width: 100%;
+    outline: none;
+    font-family: "Jost", sans-serif;
+
+}
+
+@keyframes ComeInSlowNow{
+
+    0%{
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(0px);
+    }
+
+}
