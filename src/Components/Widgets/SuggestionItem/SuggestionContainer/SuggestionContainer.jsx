@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import QuickView from "../../QuickView/QuickView";
+import { useNavigate } from "react-router";
 
 
 const SuggestionContainer = ({ img, finalPrice, title, product }) => {
@@ -10,6 +11,8 @@ const SuggestionContainer = ({ img, finalPrice, title, product }) => {
     const [visibilityHover, setVisibilityHover] = React.useState(false);
 
     const [open, setOpen] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleClose = () => {
         setOpen(false);
@@ -45,18 +48,18 @@ const SuggestionContainer = ({ img, finalPrice, title, product }) => {
 
     const handleToPage = () => {
      
-        // navigate
-
-        onLeave();
-        onVisibilityLeave();
+        navigate(`/products/${title}`, {state: product});
+        window.scrollTo(0, 0);
+        // onLeave();
+        // onVisibilityLeave();
     }
 
     return (
-        <div className="SuggestionItemContainer" onMouseLeave={onLeave}>
-                <div className="SuggestionItemContainerImg" onMouseOver={onHover}>
+        <div className="SuggestionItemContainer" onMouseLeave={onLeave}> 
+                <div className="SuggestionItemContainerImg" onMouseOver={onHover} onClick={handleToPage}>
                     <img className="SuggestionItemContainerImgImg" src={img} alt="Product" /> 
                 </div>
-                <div className="SuggestionItemContainerContent">
+                <div className="SuggestionItemContainerContent" onClick={handleToPage}>
                     <p className="SuggestionItemContainerName">{title}</p>
                     <p className="SuggestionItemContainerPrice">Rs. {finalPrice} <span className="SuggestionItemContainerPriceSecondary">Rs. 799.00</span></p>
                 </div>

@@ -4,7 +4,7 @@
     margin: auto;
     width: 95%;
     gap: 40px;
-    padding: 20px 0px;
+    padding: 20px 0px 50px;
     display: flex;
     flex-direction: column;
 
@@ -23,7 +23,7 @@
 
 .showcaseContainer{
 
-    height: 65vh;
+    height: 65vh !important;
     gap: 30px;
     display: flex;
     flex-direction: row;

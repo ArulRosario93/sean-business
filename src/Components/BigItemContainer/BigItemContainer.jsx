@@ -52,9 +52,6 @@ const BigItemContainer = ({ image, secondaryImage, sizes, name, price, product})
         window.scrollTo(0, 0);
     }
 
-
-    console.log(product);
-
     return (
         <div className="BigItemContainer" onMouseLeave={onLeave}>
             <div className="BidItemContainerImg" onMouseOver={onHover} >

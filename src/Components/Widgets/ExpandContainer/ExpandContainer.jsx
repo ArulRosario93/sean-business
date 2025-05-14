@@ -11,7 +11,6 @@ const ExpandContainer = ({ title }) => {
     const handleClick = () => {
     
         setOpen(!open);
-        console.log("clicked");
 
     }
 

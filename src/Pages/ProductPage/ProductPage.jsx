@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./ProductPage.css";
-import data from "../../Components/data.jsx";
 import { useParams, useLocation } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
@@ -14,9 +13,10 @@ const ProductPage = (
 ) => {
 
     const { state } = useLocation();
-
+    
     const { title, finalPrice, secondaryPrice, discount, images, color, colorRGB, sizes, highlights } = state;
-
+    
+    const [data, setData] = React.useState([]);
     const [size, setSize] = React.useState(sizes[0]);
     const [quantity, setQuantity] = React.useState(1);
 
@@ -29,6 +29,23 @@ const ProductPage = (
             setQuantity(quantity - 1);
         }   
     }
+
+    
+    const handlefunction = async (e) => {
+        // Fetch data from the server (if needed)
+        const res = await fetch('http://localhost:5000/products', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((res) => res.json());
+
+        setData(res);
+    }
+
+    useEffect(() => {        
+        handlefunction();
+    }, [])
 
     return (
         <div className="ProductPage">

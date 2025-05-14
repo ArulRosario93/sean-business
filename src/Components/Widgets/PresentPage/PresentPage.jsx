@@ -9,7 +9,6 @@ const PresentPage = () => {
     const { pathname } = location;
 
     const path = pathname.split('/').join('  > ').replace(' ', 'Home ').replace('products', 'Products ');
-    console.log(path);
 
     return <p className='PresentPagePara'>{path}</p>
 }
