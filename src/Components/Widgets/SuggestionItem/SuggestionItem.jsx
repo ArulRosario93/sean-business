@@ -20,7 +20,7 @@ const SuggetionItem = ({ SuggestedList }) => {
 
                         return (
                             // <h1>hi</h1>
-                            <SuggestionContainer finalPrice={item.finalPrice} title={item.title} img={item.images[0]} product={item}  />
+                            <SuggestionContainer key={index} finalPrice={item.finalPrice} title={item.title} img={item.images[0]} product={item}  />
                         )
                     })
                 }

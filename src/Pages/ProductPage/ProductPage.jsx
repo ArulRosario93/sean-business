@@ -14,10 +14,9 @@ const ProductPage = (
 
     const { state } = useLocation();
     
-    const { title, finalPrice, secondaryPrice, discount, images, color, colorRGB, sizes, highlights } = state;
-    
-    const [data, setData] = React.useState([]);
-    const [size, setSize] = React.useState(sizes[0]);
+    const [product, setProduct] = React.useState({});
+    const [suggestedProduct, setSuggestedProduct] = React.useState([]);
+    const [size, setSize] = React.useState(product?.sizes?.[0] ?? "M");
     const [quantity, setQuantity] = React.useState(1);
 
     const handlePlus = () => {
@@ -30,22 +29,47 @@ const ProductPage = (
         }   
     }
 
-    
-    const handlefunction = async (e) => {
+    const handleProduct = async (name) => {
+
+        await fetch('http://localhost:5000/products/name', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: name }),
+        })
+        .then((res) => res.json())
+        .then((res) => {
+            setProduct(res?.data);
+        });
+    }
+
+    const handleSuggestedProducts = async () => {
         // Fetch data from the server (if needed)
-        const res = await fetch('http://localhost:5000/products', {
+        await fetch('http://localhost:5000/products', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-        }).then((res) => res.json());
+        })
+        .then((res) => res.json())
+        .then((res) => {
+            // console.log(res);
+            setSuggestedProduct(res);
+        })
 
-        setData(res);
     }
 
-    useEffect(() => {        
-        handlefunction();
-    }, [])
+    useEffect(() => {   
+        if(!state){
+            console.log("NO STATE");
+            handleProduct("Golden Oversized");   
+        }
+        else{
+            setProduct(state);
+        }
+        handleSuggestedProducts();
+    }, []);
 
     return (
         <div className="ProductPage">
@@ -55,9 +79,9 @@ const ProductPage = (
                 <div className="ProductPageImgsContent">
 
                     {
-                        images.map((img, index) => {
+                        product?.images?.map((img, index) => {
                             return (
-                                <div className="ProductPageImgsContentImg">
+                                <div key={index} className="ProductPageImgsContentImg">
                                     <img src={img} alt="Product" />
                                 </div>
                             )
@@ -68,16 +92,16 @@ const ProductPage = (
                 <div className="ProductPageContent">
 
                     <div className="ProductPageContentTitleAndWishList">
-                        <h3 className="ProductPageContentTitle">{title}</h3>
+                        <h3 className="ProductPageContentTitle">{product?.name}</h3>
                         <div className="ProductPageContentWishList">
                             <FavoriteBorderIcon />
                         </div>
                     </div>
 
                     <div className="ProductPageContentPrice">
-                        <p className="ProductPageContentPriceFinal">Rs. {finalPrice}</p>
-                        <p className="ProductPageContentPriceBefore">Rs. {secondaryPrice}</p>
-                        <p className="ProductPageContentPriceDiscount">SAVE {discount}%</p>
+                        <p className="ProductPageContentPriceFinal">Rs. {product?.finalPrice}</p>
+                        <p className="ProductPageContentPriceBefore">Rs. {product?.secondaryPrice}</p>
+                        <p className="ProductPageContentPriceDiscount">SAVE {product?.discount}%</p>
                     </div>
 
                     <p className="ProductPageContentMRP">MRP incl. of all taxes</p>
@@ -101,9 +125,9 @@ const ProductPage = (
                             <div className="ProductPageContentColorSizeContainer">
 
                                 {
-                                    sizes.map((item, index) => {
+                                    product?.sizes?.map((item, index) => {
                                         return (
-                                            <div className="ProductPageContentColorSizeContainerEach" style={item == size? {background: "black", color: 'white'}: {}} onClick={() => setSize(item)}>
+                                            <div key={index} className="ProductPageContentColorSizeContainerEach" style={item == size? {background: "black", color: 'white'}: {}} onClick={() => setSize(item)}>
                                                 {item}
                                             </div>
                                         )
@@ -199,7 +223,7 @@ const ProductPage = (
 
             </div>
 
-            <SuggetionItem SuggestedList={data} />
+            <SuggetionItem SuggestedList={suggestedProduct} />
         </div>
     );
 }

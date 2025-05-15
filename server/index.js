@@ -4,7 +4,7 @@ import cors from 'cors';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getDoc, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { count, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore";
 import { collection, doc, setDoc } from "firebase/firestore"; 
 import 'dotenv/config';
 
@@ -42,10 +42,24 @@ app.use(express.urlencoded({ extended: true }));
 // For example, if you have images or stylesheets in the 'public' directory, they will be accessible at the root URL
 app.use(express.static('public'));
 
-app.get('/products', (req, res) => {
-    // Send the data as a JSON response
-    res.json(data);
-});
+const getProducts = async () => {
+
+    // Create a reference to the 'products' collection in Firestore
+    const productsRef = collection(dbApp, 'products');
+
+    // Fetch all documents from the 'products' collection
+    const snapshot = (await getDocs(productsRef));
+
+    // Map through the documents and extract their data
+    const products = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    }));
+
+    // Return the array of products
+    return products;
+
+}
 
 const getProductByName = async (name) => {
 
@@ -57,22 +71,54 @@ const getProductByName = async (name) => {
 
     const res = (await getDocs(productRef)).docs[0].data();
 
-    console.log("getting ", res);
+    console.log("GOT PRODUCT BY NAME: ", res);
+    return res;
     
 };
 
+app.post('/products/name', async (req, res) => {
+    const { name } = req.body;
+    
+    try {
+        
+        // Create a reference to the document you want to retrieve by field "name"
+
+        const data = await getProductByName(name);
+
+        res.json(data);
+
+    } catch (error) {
+        
+        console.error("Error fetching products: ", error);
+        res.status(500).json({ error: 'Failed to fetch products' });
+
+    }
+});
+
+app.get('/products', async (req, res) => {
+
+    try {
+        
+        // Create a reference to the document you want to retrieve by field "name"
+
+        const data = await getProducts();
+
+        console.log("getting ", data);
+        res.json(data);
+
+    } catch (error) {
+        
+        console.error("Error fetching products: ", error);
+        res.status(500).json({ error: 'Failed to fetch products' });
+
+    }
+
+});
+
 app.get('/', (req, res) => {
 
-    const data = {
-        message: 'Hello from the server!',
-        timestamp: new Date().toISOString()
-    };
+    res.send('Hello World!');
 
-    console.log("GET request received at /");
-    getProductByName("Golden Oversized");
-
-    // Send a JSON response with the data
-    // res.json(data);
 });
 
 app.listen(PORT, () => {
