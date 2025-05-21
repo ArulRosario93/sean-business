@@ -13,6 +13,8 @@ const SuggetionItem = ({ SuggestedList }) => {
             <div className="SuggestionItems">
                 {
                     SuggestedList.map((item, index) => {
+
+                        console.log(item);
                         
                         if (index > 10) {
                             return;
@@ -20,7 +22,7 @@ const SuggetionItem = ({ SuggestedList }) => {
 
                         return (
                             // <h1>hi</h1>
-                            <SuggestionContainer key={index} finalPrice={item.finalPrice} title={item.title} img={item.images[0]} product={item}  />
+                            <SuggestionContainer key={index} finalPrice={item.finalPrice} title={item.name} img={item.images[0]} product={item}  />
                         )
                     })
                 }

@@ -6,8 +6,18 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import SearchIcon from '@mui/icons-material/Search';
+import Search from "../Search/Search";
+import CloseIcon from '@mui/icons-material/Close';
 
 const NavBar = () => {
+
+    const [search, setSearch] = React.useState(false);
+
+    const handleSearch = () => {
+        // Implement search functionality here
+        setSearch(!search);
+    }
+
     return (
         <div className="NavBarContainer">
             <div className="NavBar">
@@ -19,11 +29,15 @@ const NavBar = () => {
                         <p>OverSized T-Shirts</p>
                         <p>Summer'25</p>
                         <p>Clearence Sale</p>
+                        {
+                            search ? <Search /> : null
+                        }
                     </div>
                     <div className="NavBarContentAccounts">
-                        
-                        <div className="NavBarContentAccountsSearch">
-                            <SearchIcon />
+                        <div className="NavBarContentAccountsSearch" onClick={handleSearch}>
+                            {
+                                search ? <CloseIcon /> : <SearchIcon style={{ color: "black" }} />
+                            }
                         </div>
                         <div className="NavBarContentAccountsAccount">
                             <PersonOutlineIcon />

@@ -1,0 +1,49 @@
+
+.Search{
+    position: absolute;
+    display: flex;
+    flex-direction: row;    
+    width: 100%;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.Search input{
+    height: 50px;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 5px 0px 0px 5px;
+    background-color: #f0f0f0;
+    font-size: 1rem;
+    color: black;
+    font-weight: 500;
+    word-spacing: 1px;
+    font-family: "Jost", sans-serif;
+    padding: 10px 20px;
+}
+
+.Search input:focus{
+    outline: none;
+}
+
+.Search > button{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0px 5px 5px 0px;
+    background-color: #f0f0f0;
+    color: rgb(43, 43, 43);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: "Jost", sans-serif;
+}
+
+@keyframes fadeIn {
+    0% {
+        width: 0%;
+        background-color: tomato;
+    }
+    100% {
+        width: 100%;
+    }
+}

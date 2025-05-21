@@ -28,6 +28,8 @@ const dbApp = getFirestore(DB);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const ipList = {};
+
 // Middleware to enable CORS (Cross-Origin Resource Sharing)
 // This is important for allowing requests from different origins (like your frontend app)
 app.use(cors());
@@ -41,6 +43,15 @@ app.use(express.urlencoded({ extended: true }));
 // This is important for serving static assets in your application
 // For example, if you have images or stylesheets in the 'public' directory, they will be accessible at the root URL
 app.use(express.static('public'));
+
+
+
+const handleIPAddressTracker = (address) => {
+
+    
+
+}
+
 
 const getProducts = async () => {
 
@@ -61,15 +72,17 @@ const getProducts = async () => {
 
 }
 
-const getProductByName = async (name) => {
+const getProductByName = async (name, count) => {
 
     const productsRef = collection(dbApp, 'products');
     // Create a reference to the document you want to retrieve by field "name"
 
     // const productRef = doc(productsRef, "Golden Oversized");
+    // only one product
+    
     const productRef = query(productsRef, where("name", "==", name));
 
-    const res = (await getDocs(productRef)).docs[0].data();
+    const res = (await getDocs(productRef, )).docs[0].data();
 
     console.log("GOT PRODUCT BY NAME: ", res);
     return res;
@@ -83,8 +96,8 @@ app.post('/products/name', async (req, res) => {
         
         // Create a reference to the document you want to retrieve by field "name"
 
-        const data = await getProductByName(name);
-
+        const data = await getProductByName(name, 5);
+        console.log("getting ", data);
         res.json(data);
 
     } catch (error) {
@@ -115,9 +128,53 @@ app.get('/products', async (req, res) => {
 
 });
 
+app.post("/admin", async (req, res) => {
+
+    const { password } = req.body;
+
+    try {
+        
+        // Create a reference to the document you want to retrieve by field "name"
+
+        if(password == process.env.ADMINPASSWORD) {
+            const data = await getProducts();
+            res.json(true);
+        }else{
+            res.json(false);
+        }
+        
+    } catch (error) {
+        
+        res.status(500).json({ error: 'failed to login' });
+
+    }
+
+});
+
+app.post("/admin/product", async (req, res) => {
+
+    // get only one product by name
+    const { name } = req.body;
+
+    console.log("name: ", name);
+    try {
+        // Create a reference to the document you want to retrieve by field "name"
+
+        const data = await getProductByName(name, 1);
+        console.log("getting ", data);
+        res.json(data);
+        
+    } catch (error) {
+        res.status(500).json({ error: 'failed to login' });
+
+    }
+});
+
 app.get('/', (req, res) => {
 
-    res.send('Hello World!');
+    console.log(req.socket.remoteAddress);
+
+    res.send(`Hello World! ${req.socket.localAddress}`,);
 
 });
 

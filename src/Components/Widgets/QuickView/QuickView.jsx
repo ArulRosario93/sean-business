@@ -4,7 +4,7 @@ import './QuickView.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
-const QuickView = ({ image, name, price, sizes, secondary, open, handleClose, color, colorRGB }) => {
+const   QuickView = ({ image, name, price, sizes, secondary, open, handleClose, color, colorRGB }) => {
 
     const [size, setSize] = React.useState(sizes[0]);
     const [quantity, setQuantity] = React.useState(1);

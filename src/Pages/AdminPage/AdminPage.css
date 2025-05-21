@@ -1,0 +1,145 @@
+
+.AdminPageContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    height: 100vh;
+    font-family: 'Jost', sans-serif;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.AdminPageActions{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    
+}
+
+.AdminPageDialogContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px;
+    font-family: 'Jost', sans-serif;
+}
+
+.AdminPageButton{
+    /* width: 100px; */
+    padding: 10px 20px;
+    /* height: 40px; */
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(186, 186, 186);
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+}
+
+.AdminPageButtonSelected{
+    background-color: black;
+    color: white;
+}
+
+.AdminPageButton:hover{
+    background-color: #ccc;
+    color: black;
+}
+.AdminPageButtonSelected:hover{
+    background-color: rgba(0, 0, 0, 0.873);
+    color: white;
+}
+
+.AdminPageManageProductsSearch{
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    padding: 20px;
+}
+.AdminPageManageProductsSearchInput{
+    width: 300px;
+    height: 100%;
+    border: 1px solid #ccc;
+    padding: 15px;
+    font-family: 'Jost', sans-serif;
+}
+.AdminPageManageProductsSearchButton{
+    width: 100px;
+    height: 100%;
+    border-radius: 0px 5px 5px  0px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+}
+.AdminPageManageProductsSearchButton:hover{
+    background-color: #ccc;
+    color: black;
+}
+.AdminPageDialog{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.AdminPageDialogTitle{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.AdminPageDialogText{
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.AdminPageDialogInput{
+    width: 300px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+.AdminPageDialogActions{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.AdminPageDialogButtonCancel, .AdminPageDialogButtonLogin{
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+}
+
+.AdminPageDialogButtonLogin:hover{
+    background-color: #ccc;
+    color: black;
+}
+
+.AdminPageDialogButtonCancel:hover{
+    background-color: #ccc;
+    color: black;
+}
+
+.AdminPageDialogButton:disabled{
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+

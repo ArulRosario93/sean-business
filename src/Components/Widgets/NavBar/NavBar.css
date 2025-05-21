@@ -23,6 +23,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    
 }
 
 
@@ -33,7 +34,8 @@
     height: 50px;
 }
 .NavBarContentSearch{
-    flex: 2;
+    position: relative;
+    flex: 3;
     display: flex;
     gap: 10px;
     flex-direction: row;
@@ -58,6 +60,5 @@
     gap: 20px;
     color: black;
     font-weight: 600;
-    
 }
 
