@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "./HomePage.css";
+import CheckOut from "../../Components/Widgets/CheckOut/CheckOut";
 import ShowCase from "../../Components/Widgets/ShowCase/ShowCase";
 
 const HomePage = () => {
@@ -26,9 +27,11 @@ const HomePage = () => {
     return (
         <div className="HomePage">
 
-            <ShowCase product={data?.slice(0, 4)} />
+            <CheckOut />
+
+            {/* <ShowCase product={data?.slice(0, 4)} />
             <ShowCase product={data?.slice(4, 8)} />
-            <ShowCase product={data?.slice(8, 12)} />
+            <ShowCase product={data?.slice(8, 12)} /> */}
 
         </div>
     );

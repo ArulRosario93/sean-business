@@ -1,0 +1,96 @@
+.CheckOutBackground{
+    position: relative;
+    max-height: 700px;
+}
+
+.CheckOut{
+    font-family: "Jost", sans-serif;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    padding: 10px 20px;
+    gap: 10px;
+    height: 570px;
+    overflow-y: scroll;
+    border-radius: 8px;
+    background-color: #f2f2f2f2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.CheckOut::-webkit-scrollbar{
+    width: 8px;
+}
+
+.css-1c5o7vy-MuiPagination-ul{
+    gap: 6px;
+}
+
+.CheckOutHeader{
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.CheckOutFooterContainer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f2f2f2f2;
+}
+
+.CheckOutContinue{
+    width: 80%;
+    font-family: "Jost", sans-serif;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px;
+    background-color: #ff1f1f;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+.CheckOutFooter{
+    width: 100%;
+    display: flex;
+    font-family: "Jost", sans-serif;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f2f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.CheckOutFooterLeft{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    font-size: .8rem;
+}
+
+.CheckOutFooterRight{
+    display: flex;
+    font-size: .8rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}

@@ -1,0 +1,135 @@
+.Page1{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Page1OrderSummary{
+    background-color: #fff;
+    width: 100%;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: medium;
+    display: flex;
+    /* height: 500px; */
+    flex-direction: column;
+}
+
+.Page1OrderSummaryHeader{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.Page1OrderSummaryHeaderLeft{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.Page1OrderSummaryHeaderRight{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.Page1OrderSummaryHeaderRightSecondaryPrice{
+    text-decoration: line-through;
+    font-size: small;
+}
+
+
+.secondaryPrice{
+    text-decoration: line-through;
+    color: #888;
+}
+
+.finalPrice{
+    display: flex;
+    align-items: center;
+    font-size: large;
+    font-weight: bold;
+    color: #333;
+}
+
+.Page1EnteringMobileNumber{
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    height: 200px;
+
+}
+
+.Page1EnteringMobileNumberHeader{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    font-family: "Jost", sans-serif;
+}
+
+.Page1EnteringMobileNumberInput{
+    width: max-content;
+    padding: 0px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid #ff1f1f   ;
+    border-radius: 8px;
+}
+
+.Page1EnteringMobileNumberInputField{
+
+    
+    border-left: 1px solid #ff1f1f;
+
+}
+
+.Page1EnteringMobileNumberInputField input{
+    width: 100%;
+    font-size: 1.1rem;
+    font-family: "Jost", sans-serif;
+    color: black;
+    background-color: transparent;
+}
+
+.Page1EnteringMobileNumberInput input{
+    padding: 15px;
+    -webkit-box-align: center;
+    border: none;
+    outline: none;
+}
+
+.Page1EnteringMobileNumberInputField::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+.Page1EnteringMobileNumberCheckbox{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #333;
+    font-family: "Jost", sans-serif;
+}
