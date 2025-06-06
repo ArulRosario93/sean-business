@@ -2,14 +2,12 @@
 import express, { json } from 'express';
 import cors from 'cors';
 
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { count, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore";
 import { collection, doc, setDoc } from "firebase/firestore"; 
 import 'dotenv/config';
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebase configuration
 const firebaseConfig = {
     apiKey: process.env.APIKEY,
     authDomain: process.env.AUTHDOMAIN,
@@ -24,7 +22,7 @@ const firebaseConfig = {
 const DB = initializeApp(firebaseConfig);
 const dbApp = getFirestore(DB);
 
-
+// Initialize the Server (App)
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -127,6 +125,36 @@ app.get('/products', async (req, res) => {
     }
 
 });
+
+// USER LOGIN
+
+app.post("/userlogin", async (req, res) => {
+
+    const { email, password } = req.body;
+
+    // LOGIN ACCOUNT THROUGH FIREBASE
+
+    console.log(email, password);
+
+    res.json({ result: true });
+
+});
+
+// USER REGISTER
+app.post("/userregister", async (req, res) => {
+
+    const { email, password, name } = req.body;
+
+    // REGISTER USER THROUGH FIREBASE
+
+    console.log(email, password, name);
+
+    res.send({ result: true });
+});
+
+
+
+// ADMIN METHODS
 
 app.post("/admin", async (req, res) => {
 

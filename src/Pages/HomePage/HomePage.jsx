@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import "./HomePage.css";
 import CheckOut from "../../Components/Widgets/CheckOut/CheckOut";
 import ShowCase from "../../Components/Widgets/ShowCase/ShowCase";
+import WishList from "../../Components/Widgets/WishList/WishList";
+import AuthenticationPage from "../AuthenticationPage/AuthenticationPage";
 
 const HomePage = () => {
 
@@ -27,7 +29,9 @@ const HomePage = () => {
     return (
         <div className="HomePage">
 
-            <CheckOut />
+            {/* <CheckOut /> */}
+
+            <AuthenticationPage />
 
             {/* <ShowCase product={data?.slice(0, 4)} />
             <ShowCase product={data?.slice(4, 8)} />

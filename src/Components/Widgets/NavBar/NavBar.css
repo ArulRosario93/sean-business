@@ -37,7 +37,7 @@
     position: relative;
     flex: 3;
     display: flex;
-    gap: 10px;
+    gap: 20px;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -45,10 +45,33 @@
 
 .NavBarContentSearch p{
     font-size: 1rem;
+    z-index: 100;
+    transition: all .2s;
     color: black;
     font-weight: 500;
     word-spacing: 1px;
     font-family: "Jost", sans-serif;
+}
+
+.NavBarContentSearchShop{
+    top: 0;
+    height: 0px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 20px;
+    opacity: 0;
+    font-family: "Jost", sans-serif;
+    animation-fill-mode: forwards;
+    animation-duration: 1s;
+    font-size: 1rem;
+    color: black;
+    font-weight: 500;
+    word-spacing: 1px;
+    font-family: "Jost", sans-serif;
+ 
 }
 
 .NavBarContentAccounts{
@@ -60,5 +83,17 @@
     gap: 20px;
     color: black;
     font-weight: 600;
+}
+
+@keyframes enterIn{
+    0%{
+        opacity: 0;
+        height: 0px;
+    }
+    
+    100%{
+        opacity: 1;
+        height: 100px;
+    }
 }
 

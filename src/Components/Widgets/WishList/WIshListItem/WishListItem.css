@@ -1,0 +1,38 @@
+
+.WishListItem{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.WishListItemContainer{
+    flex: 2.5;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}
+
+.WishListItemImage{
+    height: 100px;
+    width: 100px;
+    background-color: aqua;
+}
+
+.WishListItemImage img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.WishListItemContent{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+.WishListItemPrice{
+    flex: 1;
+}
