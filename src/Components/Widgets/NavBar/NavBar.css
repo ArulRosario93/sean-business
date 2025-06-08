@@ -38,14 +38,14 @@
     flex: 3;
     display: flex;
     gap: 20px;
+    z-index: 10;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 }
 
-.NavBarContentSearch p{
+.NavBarContentSearch .NavBarContentSearchP{
     font-size: 1rem;
-    z-index: 100;
     transition: all .2s;
     color: black;
     font-weight: 500;

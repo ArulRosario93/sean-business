@@ -3,6 +3,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 
 import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged  } from "firebase/auth";
 import { count, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore";
 import { collection, doc, setDoc } from "firebase/firestore"; 
 import 'dotenv/config';
@@ -21,6 +22,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const DB = initializeApp(firebaseConfig);
 const dbApp = getFirestore(DB);
+const auth = getAuth()
 
 // Initialize the Server (App)
 const app = express();
@@ -113,8 +115,6 @@ app.get('/products', async (req, res) => {
         // Create a reference to the document you want to retrieve by field "name"
 
         const data = await getProducts();
-
-        console.log("getting ", data);
         res.json(data);
 
     } catch (error) {
@@ -134,9 +134,18 @@ app.post("/userlogin", async (req, res) => {
 
     // LOGIN ACCOUNT THROUGH FIREBASE
 
-    console.log(email, password);
-
-    res.json({ result: true });
+    console.log("What is happeneing");
+    
+    await signInWithEmailAndPassword(auth, email, password)
+    .then((userCredentials) => {
+        const user = userCredentials.user;
+        res.json(true);
+    })
+    .catch((error) => {
+        console.log(error.code);
+        console.log(error.message);
+        res.json(error.message);
+    });
 
 });
 
@@ -147,11 +156,20 @@ app.post("/userregister", async (req, res) => {
 
     // REGISTER USER THROUGH FIREBASE
 
-    console.log(email, password, name);
+    await createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("GOT IT AND SENDING")
+        res.json(user);
+        // res.json({ user });
+    })
+    .catch((error) => {
+        console.log(error.code);
+        console.log(error.message);
+        res.json(error.message);
+    })
 
-    res.send({ result: true });
 });
-
 
 
 // ADMIN METHODS

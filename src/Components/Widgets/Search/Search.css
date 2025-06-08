@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: row;    
     width: 100%;
+    z-index: 10;
     animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -36,6 +37,13 @@
     font-weight: 500;
     cursor: pointer;
     font-family: "Jost", sans-serif;
+}
+
+.SearchedProductsList{
+    width: 100%;
+    position: absolute;
+    top: 40px;
+    /* padding: 15  px; */
 }
 
 @keyframes fadeIn {

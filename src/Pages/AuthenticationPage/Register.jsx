@@ -19,6 +19,7 @@ const Register = ({ handleLogin }) => {
             },
             body: JSON.stringify({ email, password, name })
         }).then((res) => {
+            console.log(res);
             return res.json();
         });
 

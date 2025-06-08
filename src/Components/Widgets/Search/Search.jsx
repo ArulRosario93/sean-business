@@ -1,4 +1,5 @@
 import React from "react";
+import SearchedProduct from "./SearchedProduct/SearchedProduct.jsx";
 import "./Search.css";
 
 const Search = () => {
@@ -8,16 +9,28 @@ const Search = () => {
         console.log("Search button clicked");
     }
 
+    const searchedPro = [1, 2];
+
     return (
-        <div className="Search">
+        <>
+            <div className="Search">
 
-            <input type="text" name="search" placeholder="Search a product" id="" />
-            <button onClick={handleSearch}>Search</button>
+                <input type="text" name="search" placeholder="Search a product" id="" />
+                <button onClick={handleSearch}>Search</button>
 
+
+
+            </div>
 
             {/* DO THE SEARCH PRODUCT NEXT */}
-
-        </div>
+            <div className="SearchedProductsList">
+                {
+                    searchedPro.map((item, i) => {
+                        return <SearchedProduct item={item} />
+                    })
+                }
+            </div>
+        </>
     );
 };
 

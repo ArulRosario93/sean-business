@@ -10,36 +10,39 @@ const Login = ({ handleRegister }) => {
     const handleData = async () => {
 
         // Login through server
-        await fetch('http://localhost:5000/userlogin', {
+        return fetch('http://localhost:5000/userlogin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, password })
-        }).then((res) => {
-            console.log(res.json());
-            return res.json();
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data)
+            return data;
         });
-
     }
 
     const handleSubmit = async () => {
-        
+
         if(email.length > 0 && password.length > 0){
 
             const res = await handleData();
-            console.log(res);
-            if(res){
+            if(res === true){
 
                 // SUCCESS IN LOGIN ACCOUNT
 
             }else{
-                
+
                 // ERROR LOGIN ACCOUNT
-                
+
 
             }
 
+        }else{
+
+            // ALERT USER TO ENTER EMAIL AND PASSWORD
 
         }
 
@@ -54,11 +57,12 @@ const Login = ({ handleRegister }) => {
     return (
         <div className="Login">
             <div className="LoginFlex">
-
                 <h1 className="LoginHead">Login</h1>
-                <input className="inputLogin" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-                <input className="inputLogin" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-                <button className="LoginButton" onClick={handleSubmit}>Login</button>
+                {/* <form> */}
+                    <input className="inputLogin" id="loginName" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+                    <input className="inputLogin" id="loginPassword" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+                    <button className="LoginButton" onClick={handleSubmit}>Login</button>
+                {/* </form> */}
                 <div className="LoginOptions">
                     <p className="CreateAccount" onClick={handleLogin}>Create Account</p>
                 </div>  

@@ -47,11 +47,11 @@ const NavBar = () => {
                         <img className="NavBarContentLogoImg" src="https://imgs.search.brave.com/nG1XXrjBGwj_rWKgiJkqEsDlf4PbjUpJ0kzu9eRx4Ag/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aXN0b2NrcGhvdG8u/Y29tL3Jlc291cmNl/cy9pbWFnZXMvRnJl/ZVBob3Rvcy9GcmVl/LVBob3RvLTc0MHg0/OTItMTc0NDkxNTMz/My5qcGc" alt="Logo" />
                     </div>
                     <div className="NavBarContentSearch" onMouseLeave={handleShopHoverLeft}>
-                        <p onMouseEnter={handleShopHovered}>Shop</p>
-                        <p>About Us</p>
-                        <p>Contact</p>
-                        <p>FAQs</p>
-                        <p>Contact</p>
+                        <p className="NavBarContentSearchP" onMouseEnter={handleShopHovered}>Shop</p>
+                        <p className="NavBarContentSearchP">About Us</p>
+                        <p className="NavBarContentSearchP">Contact</p>
+                        <p className="NavBarContentSearchP">FAQs</p>
+                        <p className="NavBarContentSearchP">Contact</p>
                         {
                             search ? <Search /> : null
                         }

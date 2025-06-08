@@ -22,8 +22,8 @@ const HomePage = () => {
         console.log(res);
     }
 
-    useEffect(() => {        
-        handlefunction();
+    useEffect(() => {
+        // handlefunction();
     }, [])
 
     return (
@@ -33,9 +33,9 @@ const HomePage = () => {
 
             <AuthenticationPage />
 
-            {/* <ShowCase product={data?.slice(0, 4)} />
+            <ShowCase product={data?.slice(0, 4)} />
             <ShowCase product={data?.slice(4, 8)} />
-            <ShowCase product={data?.slice(8, 12)} /> */}
+            <ShowCase product={data?.slice(8, 12)} />
 
         </div>
     );
