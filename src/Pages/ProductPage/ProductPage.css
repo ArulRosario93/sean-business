@@ -121,6 +121,14 @@
     color: #000000cc;
 }
 
+.ProductPageContentColorContainer{
+    padding: 10px 0px;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    font-family: "Jost", sans-serif;    
+}
+
 .ProductPageContentColorDivs{
     margin: 5px 0px;
     height: 45px;
@@ -132,7 +140,6 @@
 }
 
 .ProductPageContentColorDivsCircle{
-    background-color: beige;
     border-radius: 50px;
     height: 100%;
     width: 100%;

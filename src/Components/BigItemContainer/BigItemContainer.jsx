@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import QuickView from "../Widgets/QuickView/QuickView";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-const BigItemContainer = ({ image, secondaryImage, sizes, name, price, product}) => {
+const BigItemContainer = ({ image, secondaryImage, sizes, name, price, product }) => {
 
     const [hover, setHover] = React.useState(false);
     const [visibilityHover, setVisibilityHover] = React.useState(false);
@@ -71,10 +71,10 @@ const BigItemContainer = ({ image, secondaryImage, sizes, name, price, product})
 
             <div className="BigItemContainerContent" onClick={handleCLick}>
                 <h3 className="BigItemContainerContentHead">{name}</h3>
-                <p className="BigItemContainerContentPara"><span className="BigItemContainerContentLineThrough">Rs: {price}</span> Rs: {price}</p>
+                <p className="BigItemContainerContentPara"><span className="BigItemContainerContentLineThrough">Rs: {price}</span> Rs: {product.secondaryPrice}</p>
             </div>
 
-            <QuickView open={open} handleClose={handleClose} sizes={sizes} image={image} name={name} price={price} secondary={secondaryImage} func={onVisibilityClick} />
+            <QuickView open={open} handleClose={handleClose} sizes={sizes} discount={product.discount} color={product.colors} image={image} name={name} price={price} secondaryPrice={product.secondaryPrice} secondary={secondaryImage} func={onVisibilityClick} />
 
         </div>
     );

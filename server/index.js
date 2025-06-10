@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged  } from "firebase/auth";
-import { count, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { count, getDoc, getDocs, getFirestore, query, where, addDoc } from "firebase/firestore";
 import { collection, doc, setDoc } from "firebase/firestore"; 
 import 'dotenv/config';
 
@@ -133,13 +133,27 @@ app.post("/userlogin", async (req, res) => {
     const { email, password } = req.body;
 
     // LOGIN ACCOUNT THROUGH FIREBASE
-
-    console.log("What is happeneing");
     
     await signInWithEmailAndPassword(auth, email, password)
     .then((userCredentials) => {
-        const user = userCredentials.user;
-        res.json(true);
+        const userID = userCredentials.user.uid;
+
+        const usersRef = collection(dbApp, 'users');
+        // Create a new document in the 'users' collection with the user's UID as the document ID
+        const userDocRef = doc(usersRef, userID);
+
+        // Get the user data from the Firestore document
+        getDoc(userDocRef)
+        .then((doc) => {
+            if (doc.exists()) {
+                const userData = doc.data();
+                console.log("User logged in successfully:", userData);
+                res.json(userData);
+            } else {
+                console.log("No such user document!");
+                res.json({ error: "No such user document!" });
+            }
+        })
     })
     .catch((error) => {
         console.log(error.code);
@@ -148,6 +162,23 @@ app.post("/userlogin", async (req, res) => {
     });
 
 });
+
+// USER ACC 
+// {
+//     name: "Arul",
+//     uid: "(ID)"
+//     emailAddress: "itsarrowhere380@gmail.com",
+//     phoneNumber: "9043870363",
+//     addedToCart: ["(productID)"],
+//     orders: [
+//         {
+//             name: "Red OVersized",
+//             price: '900',
+//             status: "Recieved || Cancelled || Out For Delivery",
+//             dateOrdered: "25/10/2025",
+//         },
+//     ]
+// }
 
 // USER REGISTER
 app.post("/userregister", async (req, res) => {
@@ -158,10 +189,28 @@ app.post("/userregister", async (req, res) => {
 
     await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("GOT IT AND SENDING")
+        const userID = userCredentials.user.uid;
+
+        const user = { 
+            name: name,
+            uid: userID,
+            emailAddress: email,
+            phoneNumber: "",
+            addedToCart: [],
+            orders: []
+        };
+
+        // Create a reference to the 'users' collection in Firestore
+        const usersRef = collection(dbApp, 'users');
+        // Create a new document in the 'users' collection with the user's UID as the document ID
+        const userDocRef = doc(usersRef, userID);
+        // Set the user data in the Firestore document
+        setDoc(userDocRef, user)
+        .then(() => {
+            console.log("User registered successfully:", user);
+        })
+        
         res.json(user);
-        // res.json({ user });
     })
     .catch((error) => {
         console.log(error.code);

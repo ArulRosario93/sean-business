@@ -23,7 +23,7 @@ const HomePage = () => {
     }
 
     useEffect(() => {
-        // handlefunction();
+        handlefunction();
     }, [])
 
     return (

@@ -6,7 +6,7 @@ import BigItemContainer from "../../BigItemContainer/BigItemContainer";
 const ShowCase = ({ product }) => {
 
     return (
-        <div className="showcase">
+        product?.length > 0? <div className="showcase">
 
             <h1 className="showcaseHead">New Arrivals</h1>
             <div className="showcaseContainer">
@@ -21,7 +21,7 @@ const ShowCase = ({ product }) => {
 
             </div>
 
-        </div>
+        </div>: <></>
     );
 }
 
