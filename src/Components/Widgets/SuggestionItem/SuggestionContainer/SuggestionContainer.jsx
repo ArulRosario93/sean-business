@@ -47,11 +47,13 @@ const SuggestionContainer = ({ img, finalPrice, title, product }) => {
     }
 
     const handleToPage = () => {
-     
+        // refersh the page
         navigate(`/products/${title}`, {state: product});
+        window.location.reload(
+            false // This will not reload the page from the server, but will refresh the state
+        );
         window.scrollTo(0, 0);
-        // onLeave();
-        // onVisibilityLeave();
+        
     }
 
     return (
@@ -71,7 +73,7 @@ const SuggestionContainer = ({ img, finalPrice, title, product }) => {
                 <p className={ visibilityHover? "SuggestionItemContainerQuickViewPara": "SuggestionItemContainerQuickViewParaHide"}>Quick View</p>
             </div>
 
-            <QuickView open={open} handleClose={handleClose} color={product.color} colorRGB={product.colorRGB} image={img} name={title} price={finalPrice} sizes={product.sizes} secondary={img} func={onVisibilityClick} />
+            <QuickView open={open} handleClose={handleClose} color={product.colors} secondaryPrice={product.secondaryPrice} discount={product.discount} image={img} name={title} price={finalPrice} sizes={product.sizes} secondary={img} func={onVisibilityClick} />
 
         </div>
     )

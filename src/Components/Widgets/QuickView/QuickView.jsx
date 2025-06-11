@@ -33,6 +33,7 @@ const   QuickView = ({ image, name, price, sizes, secondary, secondaryPrice, dis
         setColorsSelected(item);
     }
 
+
     return (
 
         <Dialog open={open} onClose={CloseIt} maxWidth="md" fullWidth>

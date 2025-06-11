@@ -13,8 +13,6 @@ const SuggetionItem = ({ SuggestedList }) => {
             <div className="SuggestionItems">
                 {
                     SuggestedList.map((item, index) => {
-
-                        console.log(item);
                         
                         if (index > 10) {
                             return;

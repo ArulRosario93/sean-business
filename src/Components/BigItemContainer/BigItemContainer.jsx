@@ -29,6 +29,7 @@ const BigItemContainer = ({ image, secondaryImage, sizes, name, price, product }
 
     const onLeave = () => {
         setHover(false);
+        setVisibilityHover(false);
     }
 
     const onVisibilityClick = () => {
@@ -39,6 +40,7 @@ const BigItemContainer = ({ image, secondaryImage, sizes, name, price, product }
     
     const onVisibilityOver = () => {
         setVisibilityHover(true);
+        
     }
     
     const onVisibilityLeave = () => {
@@ -61,7 +63,7 @@ const BigItemContainer = ({ image, secondaryImage, sizes, name, price, product }
                     <img src={secondaryImage} alt={secondaryImage} />
                 </div>
 
-                <div onMouseOver={onVisibilityOver} onClick={onVisibilityClick} className={ hover? "BigItemContainerContentSceondaryImgQuickBtn": "BigItemContainerContentSceondaryImgQuickBtnNotHovered" } style={visibilityHover ? {backgroundColor: "black"}: {}}>
+                <div onMouseOver={onVisibilityOver} onMouseLeave={onVisibilityLeave} onClick={onVisibilityClick} className={ hover? "BigItemContainerContentSceondaryImgQuickBtn": "BigItemContainerContentSceondaryImgQuickBtnNotHovered" } style={visibilityHover ? {backgroundColor: "black"}: {}}>
 
                     <VisibilityIcon fontSize="small" color={visibilityHover? 'primary': 'black'} />
 

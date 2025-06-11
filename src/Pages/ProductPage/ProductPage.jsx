@@ -7,14 +7,17 @@ import ShareIcon from '@mui/icons-material/Share';
 import Divider from "../../Components/Widgets/Divider/Divider";
 import ExpandContainer from "../../Components/Widgets/ExpandContainer/ExpandContainer";
 import SuggetionItem from "../../Components/Widgets/SuggestionItem/SuggestionItem";
+import { colors } from "@mui/material";
 
 const ProductPage = (
     // { title, finalPrice, secondaryPrice, discount, images, color, colorRGB, sizes, highlights }
 ) => {
 
     const { state } = useLocation();
+    const params = useParams();
     
     const [product, setProduct] = React.useState({});
+    const [selectedColor, setSelectedColor] = React.useState({});
     const [suggestedProduct, setSuggestedProduct] = React.useState([]);
     const [size, setSize] = React.useState(product?.sizes?.[0] ?? "M");
     const [quantity, setQuantity] = React.useState(1);
@@ -29,6 +32,7 @@ const ProductPage = (
         }   
     }
 
+
     const handleProduct = async (name) => {
 
         await fetch('http://localhost:5000/products/name', {
@@ -40,8 +44,9 @@ const ProductPage = (
         })
         .then((res) => res.json())
         .then((res) => {
-            setProduct(res?.data);
+            setProduct(res);
         });
+
     }
 
     const handleSuggestedProducts = async () => {
@@ -60,13 +65,18 @@ const ProductPage = (
 
     }
 
+    const handleColorChange = (item) => {
+        setSelectedColor(item);
+    }
+
     useEffect(() => {   
         if(!state){
-            console.log("NO STATE");
-            handleProduct("Golden Oversized");   
+            console.log(params.id);
+            handleProduct(params.id);   
         }
         else{
             setProduct(state);
+            setSelectedColor(state?.colors?.[0]);
         }
         handleSuggestedProducts();
     }, []);
@@ -108,11 +118,19 @@ const ProductPage = (
 
                     <div className="ProductPageContentColor">
 
-                        <p className="ProductPageContentColorTitle">Color: <span>Beige</span></p>
+                        <p className="ProductPageContentColorTitle">Color: <span>{selectedColor?.name}</span></p>
 
-                        <div className="ProductPageContentColorDivs">
+                        <div className="ProductPageContentColorContainer">
 
-                            <div className="ProductPageContentColorDivsCircle"></div>
+                            {
+                                product?.colors?.map((item, index) => {
+                                    return(
+                                        <div className="ProductPageContentColorDivs" onClick={() => handleColorChange(item)} key={index} style={item?.name == selectedColor?.name? {border: "2px solid black"}: {}}>
+                                            <div className="ProductPageContentColorDivsCircle" style={{background: item?.rgba}}></div>
+                                        </div>
+                                    )
+                                })
+                            }
 
                         </div>
                     </div>
