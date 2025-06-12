@@ -1,6 +1,7 @@
 import React, { use, useEffect } from "react";
 import "./AdminPage.css";
 import { Dialog } from "@mui/material";
+import ManageProducts from "./ManageProduct/ManageProduct";
 
 const product = {
     name: "Golden Oversized",
@@ -90,7 +91,7 @@ const AdminPage = () => {
 
     return (
         <div className="AdminPageContainer">
-            <h1 className="AdminPageTitle">Admin Page</h1>
+            {/* <h1 className="AdminPageTitle">Admin Page</h1>
 
             <div className="AdminPageActions">
 
@@ -144,7 +145,9 @@ const AdminPage = () => {
                     </div>
                 </div>
 
-            </Dialog>       
+            </Dialog>        */}
+
+            <ManageProducts />
 
         </div>
     );

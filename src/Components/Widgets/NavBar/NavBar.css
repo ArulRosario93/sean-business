@@ -43,6 +43,19 @@
     align-items: center;
     justify-content: center;
 }
+.NavBarContentSearchInput{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex: 3;
+    gap: 20px;
+    position: relative;
+    z-index: 100;
+    background-color: rgb(255, 255, 255);
+    align-items: center;
+    justify-content: center;
+    font-family: "Jost", sans-serif;
+}
 
 .NavBarContentSearch .NavBarContentSearchP{
     font-size: 1rem;
@@ -62,6 +75,7 @@
     align-items: center;
     flex-direction: row;
     gap: 20px;
+    z-index: 99;
     opacity: 0;
     font-family: "Jost", sans-serif;
     animation-fill-mode: forwards;
