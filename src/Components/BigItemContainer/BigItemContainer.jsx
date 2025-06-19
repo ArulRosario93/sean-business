@@ -76,7 +76,7 @@ const BigItemContainer = ({ image, secondaryImage, sizes, name, price, product }
                 <p className="BigItemContainerContentPara"><span className="BigItemContainerContentLineThrough">Rs: {price}</span> Rs: {product.secondaryPrice}</p>
             </div>
 
-            <QuickView open={open} handleClose={handleClose} sizes={sizes} discount={product.discount} color={product.colors} image={image} name={name} price={price} secondaryPrice={product.secondaryPrice} secondary={secondaryImage} func={onVisibilityClick} />
+            <QuickView id={product.id} open={open} handleClose={handleClose} sizes={sizes} discount={product.discount} color={product.colors} image={image} name={name} price={price} secondaryPrice={product.secondaryPrice} />
 
         </div>
     );

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "./ProductPage.css";
 import { useParams, useLocation } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Favorite } from "@mui/icons-material";
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ShareIcon from '@mui/icons-material/Share';
 import Divider from "../../Components/Widgets/Divider/Divider";
@@ -9,9 +10,7 @@ import ExpandContainer from "../../Components/Widgets/ExpandContainer/ExpandCont
 import SuggetionItem from "../../Components/Widgets/SuggestionItem/SuggestionItem";
 import { colors } from "@mui/material";
 
-const ProductPage = (
-    // { title, finalPrice, secondaryPrice, discount, images, color, colorRGB, sizes, highlights }
-) => {
+const ProductPage = ({ updateWishListCart }) => {
 
     const { state } = useLocation();
     const params = useParams();
@@ -21,6 +20,7 @@ const ProductPage = (
     const [suggestedProduct, setSuggestedProduct] = React.useState([]);
     const [size, setSize] = React.useState(product?.sizes?.[0] ?? "M");
     const [quantity, setQuantity] = React.useState(1);
+    const [wishList, setWishList] = React.useState(false);
 
     const handlePlus = () => {
         quantity < 20 && quantity > 0 && setQuantity(quantity + 1);
@@ -31,7 +31,6 @@ const ProductPage = (
             setQuantity(quantity - 1);
         }   
     }
-
 
     const handleProduct = async (name) => {
 
@@ -65,6 +64,84 @@ const ProductPage = (
 
     }
 
+    const handleCheckWishList = () => {
+        const wishList = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+        const existingItemIndex = wishList.findIndex(wishListItem => 
+            wishListItem.productId === product.id
+        );
+
+        if(existingItemIndex !== -1){
+            console.log("Item already in wishlist");
+            console.log(wishList);
+            setWishList(true);
+        }
+
+    }
+
+    const handleAddWishList = () => {
+    
+        const wishList = JSON.parse(localStorage.getItem('wishlist')) || [];
+        const item = {
+            productId: product?.id,
+            name: product.name,
+            price: product.finalPrice,
+            secondaryPrice: product.secondaryPrice,
+            color: selectedColor.name,
+            rgba: selectedColor.rgba,
+            size: size,
+            quantity: quantity,
+            image: product?.images[0],
+        }
+
+        const existingItemIndex = wishList.findIndex(wishListItem => 
+            wishListItem.productId === item.productId
+        );
+
+        if(existingItemIndex !== -1){
+            
+            wishList.splice(existingItemIndex, 1);
+            localStorage.setItem('wishlist', JSON.stringify([...wishList]));
+            setWishList(false);
+            alert("Item removed from wishlist");
+            return;
+
+        }
+
+        localStorage.setItem('wishlist', JSON.stringify([...wishList, item]));
+        setWishList(true);
+        alert("Item added to wishlist");
+        
+    }
+
+    const handleAddToCart = () => {
+
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const item = {
+            productId: product?.id,
+            name: product.name,
+            price: product.finalPrice,
+            color: selectedColor.name,
+            rgba: selectedColor.rgba,
+            size: size,
+            quantity: quantity,
+            image: product.images[0],
+        }
+
+        const existingItemIndex = cart.findIndex(cartItem => 
+            cartItem.productId === item.productId
+        );
+
+        if(existingItemIndex == -1){
+            alert("Item added to cart");
+        }
+
+        console.log(existingItemIndex);
+        console.log(cart)
+        console.log(item);
+        updateWishListCart();
+    }
+
     const handleColorChange = (item) => {
         setSelectedColor(item);
     }
@@ -78,8 +155,13 @@ const ProductPage = (
             setProduct(state);
             setSelectedColor(state?.colors?.[0]);
         }
+        updateWishListCart();
         handleSuggestedProducts();
     }, []);
+    
+    useEffect(() => {
+        handleCheckWishList();
+    }, [product]);
 
     return (
         <div className="ProductPage">
@@ -103,8 +185,10 @@ const ProductPage = (
 
                     <div className="ProductPageContentTitleAndWishList">
                         <h3 className="ProductPageContentTitle">{product?.name}</h3>
-                        <div className="ProductPageContentWishList">
-                            <FavoriteBorderIcon />
+                        <div className="ProductPageContentWishList" onClick={handleAddWishList} style={wishList? {border: "1px solid red"}: {} }>
+                            {
+                                wishList? <Favorite color="error" />: <FavoriteBorderIcon />
+                            }
                         </div>
                     </div>
 
@@ -166,7 +250,7 @@ const ProductPage = (
                                 <p className="ProductPageContentQuantityContainerInt">{quantity}</p>
                                 <p className="ProductPageContentQuantityContainerPositive" onClick={handlePlus} style={quantity < 20? {color: "black"}: {color: 'gray'}}>+</p>
                             </div>
-                            <div className="ProductPageContentAddToCart">
+                            <div className="ProductPageContentAddToCart" onClick={handleAddToCart}>
                                 <p className="ProductPageContentAddToCartContainer">Add To Cart</p>
                             </div>
 

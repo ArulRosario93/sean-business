@@ -1,14 +1,16 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './QuickView.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Favorite } from '@mui/icons-material';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
-const   QuickView = ({ image, name, price, sizes, secondary, secondaryPrice, discount, open, handleClose, color }) => {
+const   QuickView = ({ image, name, price, sizes, id, secondaryPrice, discount, open, handleClose, color }) => {
 
     const [size, setSize] = React.useState(sizes[0]);
     const [colorsSelected, setColorsSelected] = React.useState({name: color[0]?.name, rgba: color[0]?.rgba});
     const [quantity, setQuantity] = React.useState(1);
+    const [wishList, setWishList] = React.useState(false);
     
     const CloseIt = () => {
         handleClose();
@@ -33,6 +35,83 @@ const   QuickView = ({ image, name, price, sizes, secondary, secondaryPrice, dis
         setColorsSelected(item);
     }
 
+    const handleCheckWishList = () => {
+        
+        const wishList = JSON.parse(localStorage.getItem('wishlist')) || [];
+        const existingItemIndex = wishList.findIndex(wishListItem => 
+            wishListItem.productId === id
+        );
+
+        if(existingItemIndex !== -1){
+            setWishList(true);
+        }
+    
+    }
+
+    const handleWishList = () => {
+    
+        const wishList = JSON.parse(localStorage.getItem('wishlist')) || [];
+        const item = {
+            productId: id,
+            name: name,
+            price: price,
+            secondaryPrice: secondaryPrice,
+            color: colorsSelected.name,
+            rgba: colorsSelected.rgba,
+            size: size,
+            quantity: quantity,
+            image: image,
+        }
+
+        const existingItemIndex = wishList.findIndex(wishListItem => 
+            wishListItem.productId === item.productId
+        );
+
+        if(existingItemIndex !== -1){
+        
+            wishList.splice(existingItemIndex, 1);
+            localStorage.setItem('wishlist', JSON.stringify([...wishList]));
+            setWishList(false);
+            console.log("Removed from wishlist");
+            return;
+            
+        }
+
+        localStorage.setItem('wishlist', JSON.stringify([...wishList, item]));
+        setWishList(true);
+        
+    }
+    
+
+    const handleAddToCart = () => {
+
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const item = {
+            productId: id,
+            name: name,
+            price: price,
+            secondaryPrice: secondaryPrice,
+            color: colorsSelected[0]?.name,
+            rgba: colorsSelected[0]?.rgba,
+            size: size,
+            quantity: quantity,
+            image: image,
+        }
+
+        const existingItemIndex = cart.findIndex(cartItem => 
+            cartItem.productId === item.productId
+        );
+
+        if(existingItemIndex !== -1){
+            cart[existingItemIndex].quantity += quantity;
+            localStorage.setItem('cart', JSON.stringify([...cart, item]));
+            console.log("Added to cart");
+        }
+    }
+
+    useEffect(() => {
+        handleCheckWishList();
+    }, [])
 
     return (
 
@@ -49,8 +128,8 @@ const   QuickView = ({ image, name, price, sizes, secondary, secondaryPrice, dis
 
                         <div className="QuickViewContainerContentTitleAndWishList">
                             <h3 className="QuickViewContainerContentTitle">{name}</h3>
-                            <div className="QuickViewContainerContentWishList">
-                                <FavoriteBorderIcon />
+                            <div className="QuickViewContainerContentWishList" onClick={handleWishList} style={wishList? {border: "1px solid red",}: {border: "1px solid black"}}>
+                                { wishList? <Favorite color="error" /> : <FavoriteBorderIcon /> }
                             </div>
                         </div>
 
@@ -111,7 +190,7 @@ const   QuickView = ({ image, name, price, sizes, secondary, secondaryPrice, dis
                                     <p className="ProductPageContentQuantityContainerInt">{quantity}</p>
                                     <p className="ProductPageContentQuantityContainerPositive" onClick={handlePlus} style={quantity < 20? {color: "black"}: {color: 'gray'}}>+</p>
                                 </div>
-                                <div className="ProductPageContentAddToCart">
+                                <div className="ProductPageContentAddToCart" onClick={handleAddToCart}>
                                     <p className="ProductPageContentAddToCartContainer">Add To Cart</p>
                                 </div>
 

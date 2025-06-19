@@ -99,6 +99,48 @@
     font-weight: 600;
 }
 
+.NavBarContentAccountsWishList{
+    position: relative;
+}
+
+.NavBarContentAccountsAccountWishListCount{
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background-color: red;
+    font-family: "Jost", sans-serif;
+    color: white;
+}
+
+.NavBarContentAccountsCart{
+    position: relative;
+}
+
+.NavBarContentAccountsAccountCartCount{
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background-color: red;
+    font-family: "Jost", sans-serif;
+    color: white;
+}
+
 @keyframes enterIn{
     0%{
         opacity: 0;

@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./NavBar.css";
 // import { SearchIcon, PersonOutlineIcon, FavoriteBorderIcon, WorkOutlineIcon } from '@mui/icons-material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
@@ -10,7 +10,7 @@ import Search from "../Search/Search";
 import CloseIcon from '@mui/icons-material/Close';
 import WishList from "../WishList/WishList";
 
-const NavBar = () => {
+const NavBar = ({ cart, wishList }) => {
 
     const [wishlistAnchor, setWishListAnchor] = useState(false);
     const [search, setSearch] = useState(false);
@@ -38,6 +38,10 @@ const NavBar = () => {
     const handleWishListClose = () => {
         setWishListAnchor(false);
     }
+
+    console.log(cart);
+    console.log(wishList);
+    
 
     return (
         <div className="NavBarContainer">
@@ -72,19 +76,25 @@ const NavBar = () => {
                                 search ? <CloseIcon /> : <SearchIcon style={{ color: "black" }} />
                             }
                         </div>
-                        <div className="NavBarContentAccountsAccount" onClick={handleWishListOpen}>
+                        <div className="NavBarContentAccountsWishList" onClick={handleWishListOpen}>
                             <FavoriteBorderIcon />
-                        </div>
-                        <div className="NavBarContentAccountsWishlist">
-                            <WorkOutlineIcon />
+                            <div className="NavBarContentAccountsAccountWishListCount" style={wishList.length == 0 ? {display: 'none'}: {}}>
+                                { wishList ? wishList.length : "" }
+                            </div>
                         </div>
                         <div className="NavBarContentAccountsCart">
+                            <WorkOutlineIcon />
+                            <div className="NavBarContentAccountsAccountCartCount" style={cart.length == 0 ? {display: 'none'}: {}}>
+                                { cart ? cart.length : "" }
+                            </div>
+                        </div>
+                        <div className="NavBarContentAccountsAccount">
                             <PersonOutlineIcon />
                         </div>
                     </div>
                 </div>
             </div>
-            <WishList anchor={wishlistAnchor} onClose={handleWishListClose} />
+            <WishList items={wishList} anchor={wishlistAnchor} onClose={handleWishListClose} />
         </div>
     );
 }

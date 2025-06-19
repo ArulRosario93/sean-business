@@ -4,19 +4,19 @@ import { Drawer } from "@mui/material";
 import "./WishList.css";
 import WishListItem from "./WIshListItem/WishListItem";
 
-const WishList = ({anchor, onClose}) => {
+const WishList = ({anchor, onClose, items}) => {
 
-    const [WishList, setWishList] = useState([]);
+    // const [WishList, setWishList] = useState([]);
 
-    const handleWishList = () => {
-        const data = localStorage.getItem('wishlist');
+    // const handleWishList = () => {
+    //     const data = localStorage.getItem('wishlist');
 
-        setWishList(data);
-    }
+    //     setWishList(data);
+    // }
 
-    useEffect(() => {
-        handleWishList();
-    }, []);
+    // useEffect(() => {
+    //     handleWishList();
+    // }, []);
 
     return (
         <div className="WishList">
@@ -28,13 +28,22 @@ const WishList = ({anchor, onClose}) => {
                     </div>
 
                     <br />
-                    <WishListItem />
+                    {
+                        items && items.length > 0 ? (
+                            items.map((item, index) => (
+                                <WishListItem key={index} item={item} />
+                            ))
+                        ) : (
+                            <p className="WishListEmpty">Your wish list is empty.</p>
+                        )
+                    }
                     <br />
 
 
                     <div className="WishListFooter">
 
-                        checkout
+                        Checkout
+
 
                     </div>
                 </Drawer>

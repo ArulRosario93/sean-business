@@ -49,8 +49,8 @@ const SuggestionContainer = ({ img, finalPrice, title, product }) => {
     const handleToPage = () => {
         // refersh the page
         navigate(`/products/${title}`, {state: product});
-        window.location.reload(
-            false // This will not reload the page from the server, but will refresh the state
+        location.reload(
+            true // This will not reload the page from the server, but will refresh the state
         );
         window.scrollTo(0, 0);
         

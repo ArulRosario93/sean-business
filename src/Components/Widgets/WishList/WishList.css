@@ -4,14 +4,38 @@
     position: relative;
 }
 
-
+.WishListHeader{
+    width: 100%;
+    font-family: 'Jost', sans-serif;
+    padding: 20px 0px 0px;
+    display: flex;
+    justify-content: center;
+}
 
 .WishListFooter{
 
     width: 100%;
-    background-color: aqua;
+    font-family: 'Jost', sans-serif;
     position: absolute;
     bottom: 0;
+    background-color: red;
+    color: white;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
     left: 0;
 
 }
+
+.WishListEmpty{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Jost', sans-serif;
+    font-size: 1.5rem;
+    color: #888;
+    padding: 20px;
+}
+

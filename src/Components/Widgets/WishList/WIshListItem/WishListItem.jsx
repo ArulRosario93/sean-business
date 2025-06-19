@@ -1,31 +1,31 @@
 import React from "react";
 import "./WishListItem.css"
 
-const WishListItem = () => {
+const WishListItem = ({ item }) => {
     return (
         <div className="WishListItem">
             
             <div className="WishListItemContainer">
                 {/* Image of the product */}
                 <div className="WishListItemImage">
-                    <img src="" alt="" srcset="" />
+                    <img src={item.image} alt="" srcset="" />
                 </div>
 
                 {/* Content of the product */}
                 <div className="WishListItemContent">
 
                     {/* name of the product */}
-                    <h3>Gost 13</h3>
-                    <p>Goal GOal Goall</p>
-                    <p><b>Size:</b> L</p>
-                    <p><b>Quantity: </b>1</p>
+                    <h3>{item.name}</h3>
+                    <p>{item.name}</p>
+                    <p><b>Size:</b> {item.size}</p>   
+                    <p><b>Quantity: </b>{item.quantity}</p>
 
                 </div>
             </div>
 
             <div className="WishListItemPrice">
 
-                <h3>$140.00</h3>
+                <h3>Rs. {item.price}</h3>
 
             </div>
         </div>
