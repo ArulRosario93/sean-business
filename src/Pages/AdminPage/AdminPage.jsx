@@ -2,13 +2,14 @@ import React, { use, useEffect } from "react";
 import "./AdminPage.css";
 import { Dialog } from "@mui/material";
 import ManageProducts from "./ManageProduct/ManageProduct";
+import EditIcon from '@mui/icons-material/Edit';
 
 const product = {
     name: "Golden Oversized",
     finalPrice: 100,
     secondaryPrice: 150,
     discount: 50,
-    image: "https://example.com/image.jpg",
+    images: ["https://img.ltwebstatic.com/images3_pi/2024/08/29/66/1724920888e922701552ba133a6498148d393a310d_thumbnail_405x.webp", "https://img.ltwebstatic.com/images3_pi/2024/08/29/db/172492089180304768be35713ea3408c702cc1775c_thumbnail_560x.webp"],
     category: "Oversized",
     subCategory: "T-Shirts",
     brand: "Brand Name",
@@ -19,6 +20,7 @@ const AdminPage = () => {
 
     const [password, setPassword] = React.useState("");
     const [isAdmin, setIsAdmin] = React.useState(true);
+    const [openProduct, setOpenProduct] = React.useState(false);
 
     const [dialogOpen, setDialogOpen] = React.useState(true);
     const [seletedAction, setSelectedAction] = React.useState("Manage Products");
@@ -79,6 +81,16 @@ const AdminPage = () => {
 
     }
 
+    const handleEditProduct = () => {
+        
+        setOpenProduct(true);
+    
+    }
+
+    const handleEditProductClose = () => {
+        setOpenProduct(false);
+    }
+
     useEffect(() => {
 
         if (isAdmin) {
@@ -91,7 +103,7 @@ const AdminPage = () => {
 
     return (
         <div className="AdminPageContainer">
-            {/* <h1 className="AdminPageTitle">Admin Page</h1>
+            <h1 className="AdminPageTitle">Admin Page</h1>
 
             <div className="AdminPageActions">
 
@@ -145,9 +157,35 @@ const AdminPage = () => {
                     </div>
                 </div>
 
-            </Dialog>        */}
+            </Dialog>
 
-            <ManageProducts />
+            <div className="ManageProductSingleContainer">
+
+                <div className="ManageProductContainerImage">
+                    <img src="" alt="" srcset="" />
+                </div>
+                <div className="ManageProductContainerContent">
+                    <div className="ManageProductContainerContentName">
+                        <p className="ManageProductContainerContentNameHead">Head</p>
+                        <p className="ManageProductContainerContentNameDes">Descritption</p>
+                    </div>
+                </div>
+                <div className="ManageProductContainerContentPrice">
+
+                    <p>Rs. 100</p>
+
+                </div>
+                <div className="ManageProductContainerEdit" onClick={handleEditProduct}>
+                    <EditIcon />
+                </div>
+
+            </div>
+
+            {
+                openProduct ?
+                <ManageProducts product={product} closeIt={handleEditProductClose} />   
+                : null
+            }
 
         </div>
     );

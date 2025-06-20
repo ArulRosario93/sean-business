@@ -1,118 +1,84 @@
 import React from "react";
+import "./ManageProduct.css";
+import { Dialog } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ShareIcon from '@mui/icons-material/Share';
 import Divider from "../../../Components/Widgets/Divider/Divider";
 import ExpandContainer from "../../../Components/Widgets/ExpandContainer/ExpandContainer";
 
-const ManageProducts = ({ product }) => {
+const ManageProducts = ({ product, closeIt }) => {
 
-    const handleChangeName = () => {}
+    const [open, setOpen] = React.useState(true);
+    const [productDetails, setProductDetails] = React.useState(product);
 
-    const handleChangeFinalPrice = () => {}
 
-    const handleChangeSecondaryPrice = () => {}
+    const handleClose = () => {
+        setOpen(false);
+        closeIt();
+    }
 
-    const handleColordiscount = () => {}
+    const handleaddImage = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                // Assuming product is a state variable, you would update it here
+                // setProduct(prev => ({ ...prev, images: [...prev.images, reader.result] }));
+            };
+            reader.readAsDataURL(file);
+        }
+    }
 
-    const handleChangeColor = () => {}
-
-    const handleChangesize = () => {}
-
+    const handleAddImageLink = () => {
+        const imageLink = prompt("Enter the image link:");
+        if (imageLink) {
+            // Assuming product is a state variable, you would update it here
+            setProductDetails(prev => ({ ...prev, images: [...prev.images, imageLink] }));
+        }
+    }
 
     return (
         <div className="ManageProduct">
             
-            <div className="ManageProductContainer">
+            <Dialog open={open} maxWidth="lg" fullWidth={true} onClose={handleClose} className="ManageProductDialog">
 
-                <div className="ManageProductImage">
 
-                    <img src="https://cdn-icons-png.flaticon.com/512/1170/1170576.png" alt="Manage Products" />
-                    <img src="https://cdn-icons-png.flaticon.com/512/1170/1170576.png" alt="Manage Products" />
-                    <img src="https://cdn-icons-png.flaticon.com/512/1170/1170576.png" alt="Manage Products" />
+                <h2 className="ManageProductDialogHead">Edit Product</h2>
+
+                <div className="ManageProductDialogContainer">
+
+                    <div className="ManageProductDialogContainerImages">
+                        {
+                            productDetails?.images?.map((image, index) => (
+                                <div key={index} className="ManageProductDialogContainerImagesMainEachImage">
+                                    <img src={image} alt="Oversized" srcset="" />
+                                </div>
+                            ))
+                        }
+
+                        <div className="ManageProductDialogContainerImagesMain" onClick={handleAddImageLink}>
+                            <input type="btn" id="file" style={{display: 'none'}}/>
+                            <label htmlFor="file">+</label>
+                        </div>
+                    </div>
+                    
+                    <div className="ManageProductDialogContainerDetails">
+
+                        <label className="ManageProductDialogContainerDetailsLabel">Name of the product</label>
+                        <input type="text" name="text" value={product?.name} />
+                        <br />
+                        <label className="ManageProductDialogContainerDetailsLabel">Description of the product</label>
+                        <input type="text" name="text" value={product?.description} />
+
+                    </div>
 
                 </div>
-                
-                
-                <div className="ManageProductContent">
 
-
-                    <div className="ProductPageContentTitleAndWishList">
-                        <h3 className="ProductPageContentTitle">{product?.name}</h3>
-                        <div className="ProductPageContentWishList">
-                            <FavoriteBorderIcon />
-                        </div>
-                    </div>
-
-                    <div className="ProductPageContentPrice">
-                        <p className="ProductPageContentPriceFinal">Rs. {product?.finalPrice}</p>
-                        <p className="ProductPageContentPriceBefore">Rs. {product?.secondaryPrice}</p>
-                        <p className="ProductPageContentPriceDiscount">SAVE {product?.discount}%</p>
-                    </div>
-
-                    <div className="ProductPageContentColor">
-
-                        <p className="ProductPageContentColorTitle">Tap to Remove</p>
-
-                        <div className="ProductPageContentColorContainer">
-
-                            {
-                                product?.colors?.map((item, index) => {
-                                    return(
-                                        <div className="ProductPageContentColorDivs" onClick={() => handleColorChange(item)} key={index} style={item?.name == selectedColor?.name? {border: "2px solid black"}: {}}>
-                                            <div className="ProductPageContentColorDivsCircle" style={{background: item?.rgba}}></div>
-                                        </div>
-                                    )
-                                })
-                            }
-
-                        </div>
-                    </div>
-
-                    <div className="ProductPageContentColorSize">
-
-                        <p className="ProductPageContentColorSizeTitleHead">Tap to Remove Sizes</p>
-
-                        <div className="ProductPageContentColorSizeTitle">
-                            <div className="ProductPageContentColorSizeContainer">
-
-                                {
-                                    product?.sizes?.map((item, index) => {
-                                        return (
-                                            <div key={index} className="ProductPageContentColorSizeContainerEach" style={item == size? {background: "black", color: 'white'}: {}} onClick={() => setSize(item)}>
-                                                {item}
-                                            </div>
-                                        )
-                                    })
-                                }
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <Divider />
-
-                    <div className="ProductPageContentFreeShipping">
-                        <p className="ProductPageContentFreeShippingPara"><span className="ProductPageContentFreeShippingParaSpan">Free Shipping & Returns:</span> On all orders over ₹499, 7 day Easy Returns.</p>
-                    </div>
-
-                    <div className="ProductPageContentEstimatedDelivery">
-                        <p className="ProductPageContentEstimatedDeliveryPara"><span className="ProductPageContentEstimatedDeliveryParaSpan">Estimated Delivery:</span> Jan - Jan 15.</p>
-                    </div>
-
-                    <Divider />
-
-                    <ExpandContainer title="Product Description" />
-                    <ExpandContainer title="Returns, Exchange, & Refund Policy" />
-                    <ExpandContainer title="About Us" />
-
-                    
-                    
-                </div>
-
-            </div>
+            </Dialog>
 
         </div>
+
     );
 }
 
