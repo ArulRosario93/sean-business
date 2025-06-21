@@ -14,7 +14,33 @@ const product = {
     subCategory: "T-Shirts",
     brand: "Brand Name",
     description: "This is a golden oversized t-shirt.",
-}
+    reviews: [
+        {
+            "name": "John Doe",
+            "rating": 4.5,
+            "comment": "Great product! Very comfortable and stylish.",
+            "date": "2024-08-29"
+        },
+        {
+            "name": "Jane Smith",
+            "rating": 5,
+            "comment": "Absolutely love this t-shirt! The quality is amazing.",
+            "date": "2024-08-30"
+        },
+        {
+            "name": "Alice Johnson",
+            "rating": 4,
+            "comment": "Good value for money. The fit is perfect.",
+            "date": "2024-08-31"
+        },
+        {
+            "name": "Bob Brown",
+            "rating": 3.5,
+            "comment": "Decent quality, but the color is not as expected.",
+            "date": "2024-09-01"
+        }
+    ]
+};
 
 const AdminPage = () => {
 

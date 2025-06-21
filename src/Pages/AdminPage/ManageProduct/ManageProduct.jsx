@@ -1,5 +1,6 @@
 import React from "react";
 import "./ManageProduct.css";
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Dialog } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
@@ -12,6 +13,15 @@ const ManageProducts = ({ product, closeIt }) => {
     const [open, setOpen] = React.useState(true);
     const [imageDialog, setImageDialog] = React.useState(false);
     const [productDetails, setProductDetails] = React.useState(product);
+
+    const [name, setName] = React.useState(product?.name || "");
+    const [description, setDescription] = React.useState(product?.description || "");
+    const [finalPrice, setFinalPrice] = React.useState(product?.finalPrice || "");
+    const [secondaryPrice, setSecondaryPrice] = React.useState(product?.secondaryPrice || "");
+    const [discount, setDiscount] = React.useState(product?.discount || "");
+    const [category, setCategory] = React.useState(product?.category);
+
+    const [edited, setEdited] = React.useState(false);
 
 
     const handleClose = () => {
@@ -37,15 +47,14 @@ const ManageProducts = ({ product, closeIt }) => {
             // Assuming product is a state variable, you would update it here
             setProductDetails(prev => ({ ...prev, images: [...prev.images, imageLink] }));
         }
+        setEdited(true);
     }
 
     const handleImageClick = (e) => {
-    
         const imageSrc = e.target.src;
         setImageDialog(imageSrc);
         // Assuming product is a state variable, you would update it here
         // setProductDetails(prev => ({ ...prev, selectedImage: imageSrc }));
-
     }
 
     const handleImageDialogClose = () => {
@@ -64,16 +73,74 @@ const ManageProducts = ({ product, closeIt }) => {
             }));
             setImageDialog(false);
         }
-
-        // i just wanted to know whether the product details are edited or not. how to do that?
-        // You can set a state variable to track if the product details have been edited
-        
+        setEdited(true);
     }
-    
+
+    const handleReviewDelete = (index) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this review?");
+
+        if (confirmDelete) {
+            // Assuming product is a state variable, you would update it here
+            setProductDetails(prev => ({
+                ...prev,
+                reviews: prev.reviews.filter((_, i) => i !== index)
+            }));
+        }
+        setEdited(true);
+    }
+
+    const handleChanged = () => {
+        setEdited(true);
+    }
+
+    const handleChangedName = (e) => {
+        setName(e.target.value);
+        setProductDetails(prev => ({ ...prev, name: e.target.value }));
+        handleChanged();
+    }
+
+    const handleChangedDescription = (e) => {
+        setDescription(e.target.value);
+        setProductDetails(prev => ({ ...prev, description: e.target.value }));
+        handleChanged();
+    }
+
+    const handleChangedFinalPrice = (e) => {
+        setFinalPrice(e.target.value);
+        setProductDetails(prev => ({ ...prev, finalPrice: e.target.value }));
+        handleChanged();
+    }
+
+    const handleChangedSecondaryPrice = (e) => {
+        setSecondaryPrice(e.target.value);
+        setProductDetails(prev => ({ ...prev, secondaryPrice: e.target.value }));
+        handleChanged();
+    }
+
+    const handleChangedDiscount = (e) => {
+        setDiscount(e.target.value);
+        setProductDetails((prev) => (
+            {
+                ...prev,
+                discount: e.target.value
+            }
+        ));
+        handleChanged();
+    }
+
+    const handleSubmit = () => {
+        
+        if(edited){
+            // Here you would typically send the updated product details to your backend
+            console.log("Product details updated:", productDetails);
+            alert("Product details updated successfully!");
+        }
+    }
+
     return (
         <div className="ManageProduct">
             
-            <Dialog open={open} maxWidth="lg" fullWidth={true} onClose={handleClose} className="ManageProductDialog">
+            <Dialog open={open} maxWidth="lg" style={{overflow: 'hidden'}} fullWidth={true} onClose={handleClose} className="ManageProductDialog">
 
 
                 <h2 className="ManageProductDialogHead">Edit Product</h2>
@@ -100,26 +167,69 @@ const ManageProducts = ({ product, closeIt }) => {
                         <div className="ManageProductDialogContainerDetailsActions">
 
                             <label className="ManageProductDialogContainerDetailsLabel">Name of the product</label>
-                            <input type="text" name="text" value={product?.name} />
+                            <input type="text" name="text" value={name} onChange={handleChangedName}/>
                         </div>
-                        {/* <br /> */}
                         <div className="ManageProductDialogContainerDetailsActions">
                         <label className="ManageProductDialogContainerDetailsLabel">Description of the product</label>
-                        <input type="text" name="text" value={product?.description} />
+                        <input type="text" name="text" value={description} onChange={handleChangedDescription}/>
                         </div>
-                        {/* <br /> */}
                         <div className="ManageProductDialogContainerDetailsActions">
                             <label className="ManageProductDialogContainerDetailsLabel">Category of the product</label>
-                            <input type="text" name="text" value={product?.category} />
+                            <select name="category" value={category} onChange={(e) => setProductDetails({ ...productDetails, category: e.target.value })}>
+                                <option value="clothing">Motivation Tees</option>
+                                <option value="electronics">Sarcastic Tees</option>
+                                <option value="accessories">Offensive Tees</option>
+                            </select>
                         </div>
-                        {/* <br /> */}
                         <div className="ManageProductDialogContainerDetailsActions">
-                            <label className="ManageProductDialogContainerDetailsLabel">Price of the product</label>
-                            <input type="text" name="text" value={product?.finalPrice} />
+                            <label className="ManageProductDialogContainerDetailsLabel">Final Price of the product</label>
+                            <input type="text" name="text" value={finalPrice} onChange={handleChangedFinalPrice}/>
+                        </div>
+                        <div className="ManageProductDialogContainerDetailsActions">
+                            <label className="ManageProductDialogContainerDetailsLabel">Secondary Price of the product</label>
+                            <input type="text" name="text" value={secondaryPrice} onChange={handleChangedSecondaryPrice}  />
+                        </div>
+                        <div className="ManageProductDialogContainerDetailsActions">
+                            <label className="ManageProductDialogContainerDetailsLabel">Discount of the product</label>
+                            <input type="text" name="text" value={discount} onChange={handleChangedDiscount}/>
                         </div>
 
                     </div>
 
+                </div>
+
+                <div className="ManageProductDialogReviews">
+                    <h3 className="ManageProductDialogReviewsHead">Reviews</h3>
+                    <div className="ManageProductDialogReviewsContainer">
+                        {
+                            productDetails?.reviews?.length > 0 ? productDetails.reviews.map((review, index) => (
+                                <div key={index} className="ManageProductDialogReviewsContainerEachReview">
+                                    <div className="ManageProductDialogReviewsContainerEachReviewText">
+                                        <div className="ManageProductDialogReviewsContainerEachReviewTextDetails">
+
+                                            {review.comment}
+                                            <div className="ManageProductDialogReviewsContainerEachReviewTextRating">
+                                                
+                                                {
+                                                    Array.from({ length: review.rating }).map((_, i) => (
+                                                        <span key={i} className="ManageProductDialogReviewsContainerEachReviewTextRatingStar">★</span>
+                                                    ))
+                                                }
+
+                                            </div>
+                                        </div>
+                                        <div className="ManageProductDialogReviewsContainerEachReviewUser">
+                                            {review.name}
+                                        </div>
+                                    </div>
+                                    
+                                    <div onClick={() => handleReviewDelete(index)}>
+                                        <DeleteIcon />
+                                    </div>
+                                </div>
+                            )) : <p className="ManageProductDialogReviewsContainerEachNoReview">No reviews yet.</p>
+                        }
+                    </div>
                 </div>
 
                 {
@@ -140,7 +250,7 @@ const ManageProducts = ({ product, closeIt }) => {
                     </Dialog>
                 }
 
-                <div className="ManageProductDialogBtn">
+                <div className="ManageProductDialogBtn" style={{ opacity: edited ? '1' : '.5' }} onClick={handleSubmit}>
                     Submit
                 </div>
 
