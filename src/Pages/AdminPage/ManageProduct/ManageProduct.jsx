@@ -10,6 +10,7 @@ import ExpandContainer from "../../../Components/Widgets/ExpandContainer/ExpandC
 const ManageProducts = ({ product, closeIt }) => {
 
     const [open, setOpen] = React.useState(true);
+    const [imageDialog, setImageDialog] = React.useState(false);
     const [productDetails, setProductDetails] = React.useState(product);
 
 
@@ -38,6 +39,37 @@ const ManageProducts = ({ product, closeIt }) => {
         }
     }
 
+    const handleImageClick = (e) => {
+    
+        const imageSrc = e.target.src;
+        setImageDialog(imageSrc);
+        // Assuming product is a state variable, you would update it here
+        // setProductDetails(prev => ({ ...prev, selectedImage: imageSrc }));
+
+    }
+
+    const handleImageDialogClose = () => {
+        setImageDialog(false);
+        // Assuming product is a state variable, you would update it here
+        // setProductDetails(prev => ({ ...prev, selectedImage: null }));
+    }
+
+    const handleImageDelete = () => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this image?");
+        if (confirmDelete) {
+            // Assuming product is a state variable, you would update it here
+            setProductDetails(prev => ({
+                ...prev,
+                images: prev.images.filter(image => image !== imageDialog)
+            }));
+            setImageDialog(false);
+        }
+
+        // i just wanted to know whether the product details are edited or not. how to do that?
+        // You can set a state variable to track if the product details have been edited
+        
+    }
+    
     return (
         <div className="ManageProduct">
             
@@ -51,7 +83,7 @@ const ManageProducts = ({ product, closeIt }) => {
                     <div className="ManageProductDialogContainerImages">
                         {
                             productDetails?.images?.map((image, index) => (
-                                <div key={index} className="ManageProductDialogContainerImagesMainEachImage">
+                                <div key={index} className="ManageProductDialogContainerImagesMainEachImage" onClick={handleImageClick}>
                                     <img src={image} alt="Oversized" srcset="" />
                                 </div>
                             ))
@@ -62,20 +94,58 @@ const ManageProducts = ({ product, closeIt }) => {
                             <label htmlFor="file">+</label>
                         </div>
                     </div>
-                    
-                    <div className="ManageProductDialogContainerDetails">
 
-                        <label className="ManageProductDialogContainerDetailsLabel">Name of the product</label>
-                        <input type="text" name="text" value={product?.name} />
-                        <br />
+                    <div className="ManageProductDialogContainerDetails">
+                        
+                        <div className="ManageProductDialogContainerDetailsActions">
+
+                            <label className="ManageProductDialogContainerDetailsLabel">Name of the product</label>
+                            <input type="text" name="text" value={product?.name} />
+                        </div>
+                        {/* <br /> */}
+                        <div className="ManageProductDialogContainerDetailsActions">
                         <label className="ManageProductDialogContainerDetailsLabel">Description of the product</label>
                         <input type="text" name="text" value={product?.description} />
+                        </div>
+                        {/* <br /> */}
+                        <div className="ManageProductDialogContainerDetailsActions">
+                            <label className="ManageProductDialogContainerDetailsLabel">Category of the product</label>
+                            <input type="text" name="text" value={product?.category} />
+                        </div>
+                        {/* <br /> */}
+                        <div className="ManageProductDialogContainerDetailsActions">
+                            <label className="ManageProductDialogContainerDetailsLabel">Price of the product</label>
+                            <input type="text" name="text" value={product?.finalPrice} />
+                        </div>
 
                     </div>
 
                 </div>
 
+                {
+                    <Dialog open={imageDialog} onClose={handleImageDialogClose} maxWidth="md" className="ManageProductDialogImageDialog">
+                    
+                        <div className="ManageProductDialogImageDialogContainer">
+                        
+                            <div className="ManageProductDialogImageDialogContainerImage">
+                                <img src={imageDialog} alt="Product" />
+                            </div>
+
+                            <div className="ManageProductDialogImageDialogContainerBtn" onClick={handleImageDelete}>
+                                Delete
+                            </div>
+
+                        </div>
+
+                    </Dialog>
+                }
+
+                <div className="ManageProductDialogBtn">
+                    Submit
+                </div>
+
             </Dialog>
+            
 
         </div>
 
