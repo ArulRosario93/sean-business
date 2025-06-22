@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged  } from "firebase/auth";
-import { count, getDoc, getDocs, getFirestore, query, where, addDoc } from "firebase/firestore";
+import { count, getDoc, getDocs, getFirestore, query, where, addDoc, orderBy, limit } from "firebase/firestore";
 import { collection, doc, setDoc } from "firebase/firestore"; 
 import 'dotenv/config';
 
@@ -56,7 +56,7 @@ const handleIPAddressTracker = (address) => {
 const getProducts = async () => {
 
     // Create a reference to the 'products' collection in Firestore
-    const productsRef = collection(dbApp, 'products');
+    const productsRef = query(collection(dbApp, 'products'), orderBy("timestamp", "desc"), limit("20"));
 
     // Fetch all documents from the 'products' collection
     const snapshot = (await getDocs(productsRef));
@@ -88,6 +88,57 @@ const getProductByName = async (name, count) => {
     return res;
     
 };
+
+const editProduct = async (productId, productData) => {
+
+    // Create a reference to the 'products' collection in Firestore
+    const productsRef = collection(dbApp, 'products');
+    // Create a reference to the document you want to update by field "productId"
+    const productRef = doc(productsRef, productId);
+
+    // Update the document with the new data
+    await setDoc(productRef, productData, { merge: true });
+
+    console.log("Product updated successfully:", productData);
+
+}
+
+const getOrders = async () => {
+    // Create a reference to the 'orders' collection in Firestore
+    const ordersRef = query(collection(dbApp, 'orders'), orderBy("timestamp", "desc"), limit(10));
+
+    // Fetch latest 20 documents from the 'orders' collection. by timestamp
+    const snapshot = await getDocs(ordersRef);
+    // Map through the documents and extract their data
+    const orders = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    }));
+
+    // Return the array of orders
+    return orders;
+}
+
+const getOrderById = async (orderId) => {
+    // Create a reference to the 'orders' collection in Firestore
+    const ordersRef = collection(dbApp, 'orders');
+    // Create a reference to the document you want to retrieve by field "orderId"
+    const orderRef = doc(ordersRef, orderId);
+    // Fetch the document from Firestore
+    const docSnapshot = await getDoc(orderRef);
+    // Check if the document exists
+    if (docSnapshot.exists()) {
+        // Return the data of the document
+        return {
+            id: docSnapshot.id,
+            ...docSnapshot.data(),
+        };
+    } else {
+        // If the document does not exist, return null or throw an error
+        console.error("No such order document!");
+        return null;
+    }
+}
 
 app.post('/products/name', async (req, res) => {
     const { name } = req.body;
@@ -150,35 +201,16 @@ app.post("/userlogin", async (req, res) => {
                 console.log("User logged in successfully:", userData);
                 res.json(userData);
             } else {
-                console.log("No such user document!");
                 res.json({ error: "No such user document!" });
             }
         })
     })
     .catch((error) => {
-        console.log(error.code);
-        console.log(error.message);
         res.json(error.message);
     });
 
 });
 
-// USER ACC 
-// {
-//     name: "Arul",
-//     uid: "(ID)"
-//     emailAddress: "itsarrowhere380@gmail.com",
-//     phoneNumber: "9043870363",
-//     addedToCart: ["(productID)"],
-//     orders: [
-//         {
-//             name: "Red OVersized",
-//             price: '900',
-//             status: "Recieved || Cancelled || Out For Delivery",
-//             dateOrdered: "25/10/2025",
-//         },
-//     ]
-// }
 
 // USER REGISTER
 app.post("/userregister", async (req, res) => {
@@ -213,8 +245,6 @@ app.post("/userregister", async (req, res) => {
         res.json(user);
     })
     .catch((error) => {
-        console.log(error.code);
-        console.log(error.message);
         res.json(error.message);
     })
 
@@ -222,7 +252,6 @@ app.post("/userregister", async (req, res) => {
 
 
 // ADMIN METHODS
-
 app.post("/admin", async (req, res) => {
 
     const { password } = req.body;
@@ -232,7 +261,6 @@ app.post("/admin", async (req, res) => {
         // Create a reference to the document you want to retrieve by field "name"
 
         if(password == process.env.ADMINPASSWORD) {
-            const data = await getProducts();
             res.json(true);
         }else{
             res.json(false);
@@ -240,13 +268,31 @@ app.post("/admin", async (req, res) => {
         
     } catch (error) {
         
-        res.status(500).json({ error: 'failed to login' });
+        res.status(500).json({ error: error.message });
 
     }
 
 });
 
-app.post("/admin/product", async (req, res) => {
+
+app.get("/admin/product", async (req, res) => {
+
+    try {
+        const data = await getProducts();
+        res.json(data);
+        
+    } catch (error) {
+
+        console.error("Error fetching products: ", error);
+        
+        res.status(500).json({ error: error.message });
+
+    }
+});
+
+
+
+app.post("/admin/product/name", async (req, res) => {
 
     // get only one product by name
     const { name } = req.body;
@@ -260,10 +306,63 @@ app.post("/admin/product", async (req, res) => {
         res.json(data);
         
     } catch (error) {
-        res.status(500).json({ error: 'failed to login' });
+        res.status(500).json({ error: error.message });
 
     }
 });
+
+app.post("/admin/product/edit", async (req, res) => {
+    const { productId, productdata } = req.body;
+
+    console.log("productId: ", productId);
+    console.log("productdata: ", productdata);
+
+    try {
+        // Create a reference to the document you want to update by field "productId"
+        await editProduct(productId, productdata);
+        res.json({ message: "Product updated successfully" });
+        
+    } catch (error) {
+        console.error("Error updating product: ", error);
+        res.status(500).json({ error: error.message });
+    }
+
+});
+
+
+// ADMIN ORDERS
+app.get("/admin/orders", async (req, res) => {
+    
+    try {
+
+        const data = await getOrders();
+        res.json(data);
+        
+    } catch (error) {
+
+        res.status(500).json({ error: error.message });
+        
+    }
+});
+
+// ADMIN ORDERS BY ID
+app.post("/admin/orders/id", async (req, res) => {
+
+    const { id } = req.body;
+
+    try {
+
+        const data = await getOrderById(id);
+        res.json(data);
+        
+    } catch (error) {
+
+        res.status(500).json({ error: error.message });
+        
+    }
+
+})
+
 
 app.get('/', (req, res) => {
 

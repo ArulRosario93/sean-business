@@ -7,6 +7,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ShareIcon from '@mui/icons-material/Share';
 import Divider from "../../../Components/Widgets/Divider/Divider";
 import ExpandContainer from "../../../Components/Widgets/ExpandContainer/ExpandContainer";
+import AdminMethods from "../AdminMethods/AdminMethods";
 
 const ManageProducts = ({ product, closeIt }) => {
 
@@ -22,7 +23,7 @@ const ManageProducts = ({ product, closeIt }) => {
     const [category, setCategory] = React.useState(product?.category);
 
     const [edited, setEdited] = React.useState(false);
-
+    const [onSubmit, setOnSubmit] = React.useState(false);
 
     const handleClose = () => {
         setOpen(false);
@@ -105,6 +106,12 @@ const ManageProducts = ({ product, closeIt }) => {
         handleChanged();
     }
 
+    const handleChangedCategory = (e) => {
+        setCategory(e.target.value);
+        setProductDetails(prev => ({ ...prev, category: e.target.value }));
+        handleChanged();
+    }
+
     const handleChangedFinalPrice = (e) => {
         setFinalPrice(e.target.value);
         setProductDetails(prev => ({ ...prev, finalPrice: e.target.value }));
@@ -128,14 +135,29 @@ const ManageProducts = ({ product, closeIt }) => {
         handleChanged();
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         
+        console.log("Submitting product details...");
+
         if(edited){
+            setOnSubmit(true);
+            console.log("Submitting product details:", productDetails);
             // Here you would typically send the updated product details to your backend
-            console.log("Product details updated:", productDetails);
-            alert("Product details updated successfully!");
+            const data = await AdminMethods.handleAdminSearchProductEdit(productDetails.id, productDetails);
+            console.log("Product details updated:", data);
+
+            if(data?.error) {
+                alert(`Error updating product: ${data.error}`);
+            }else{
+                alert("Product updated successfully!");
+                setOpen(false);
+                closeIt();
+                window.location.reload();
+            }
+
         }
     }
+
 
     return (
         <div className="ManageProduct">
@@ -175,7 +197,7 @@ const ManageProducts = ({ product, closeIt }) => {
                         </div>
                         <div className="ManageProductDialogContainerDetailsActions">
                             <label className="ManageProductDialogContainerDetailsLabel">Category of the product</label>
-                            <select name="category" value={category} onChange={(e) => setProductDetails({ ...productDetails, category: e.target.value })}>
+                            <select name="category" value={category} onChange={handleChangedCategory}>
                                 <option value="clothing">Motivation Tees</option>
                                 <option value="electronics">Sarcastic Tees</option>
                                 <option value="accessories">Offensive Tees</option>
@@ -207,11 +229,11 @@ const ManageProducts = ({ product, closeIt }) => {
                                     <div className="ManageProductDialogReviewsContainerEachReviewText">
                                         <div className="ManageProductDialogReviewsContainerEachReviewTextDetails">
 
-                                            {review.comment}
+                                            {review.content}
                                             <div className="ManageProductDialogReviewsContainerEachReviewTextRating">
                                                 
                                                 {
-                                                    Array.from({ length: review.rating }).map((_, i) => (
+                                                    Array.from({ length: review.star }).map((_, i) => (
                                                         <span key={i} className="ManageProductDialogReviewsContainerEachReviewTextRatingStar">★</span>
                                                     ))
                                                 }
@@ -250,8 +272,10 @@ const ManageProducts = ({ product, closeIt }) => {
                     </Dialog>
                 }
 
-                <div className="ManageProductDialogBtn" style={{ opacity: edited ? '1' : '.5' }} onClick={handleSubmit}>
-                    Submit
+                <div className="ManageProductDialogBtn" style={{ opacity: edited ? '1' : '.5' }} onClick={onSubmit ? null: handleSubmit}>
+                    {
+                        onSubmit ? <p>Submitting...</p> : <p>Submit</p>
+                    }
                 </div>
 
             </Dialog>

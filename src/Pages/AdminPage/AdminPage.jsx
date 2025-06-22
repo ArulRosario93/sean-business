@@ -1,8 +1,12 @@
 import React, { use, useEffect } from "react";
 import "./AdminPage.css";
 import { Dialog } from "@mui/material";
+import AdminMethods from "./AdminMethods/AdminMethods";
 import ManageProducts from "./ManageProduct/ManageProduct";
 import EditIcon from '@mui/icons-material/Edit';
+import ManageProductSingleContainer from "./ManageProduct/ManageProductSingleContainer";
+import AdminSearch from "./ManageProduct/ManageProductSearch";
+import AuthenticationPage from "../AuthenticationPage/AuthenticationPage";
 
 const product = {
     name: "Golden Oversized",
@@ -46,11 +50,26 @@ const AdminPage = () => {
 
     const [password, setPassword] = React.useState("");
     const [isAdmin, setIsAdmin] = React.useState(true);
+
     const [openProduct, setOpenProduct] = React.useState(false);
+    const [openProductEdit, setOpenProductEdit] = React.useState();
+    const [openOrder, setOpenOrder] = React.useState(false);
+    const [openUser, setOpenUser] = React.useState(false);
+    const [openReport, setOpenReport] = React.useState(false);
+
+    const [showLogin, setShowLogin] = React.useState(false);
 
     const [dialogOpen, setDialogOpen] = React.useState(true);
     const [seletedAction, setSelectedAction] = React.useState("Manage Products");
     const [searchValue, setSearchValue] = React.useState("");
+    const [orderSearchValue, setOrderSearchValue] = React.useState("");
+    const [userSearchValue, setUserSearchValue] = React.useState("");
+
+    // Products, Orders, Users
+    const [AdminProductList, setAdminProductList] = React.useState([]);
+    const [AdminOrderList, setAdminOrderList] = React.useState([]);
+    const [AdminUserList, setAdminUserList] = React.useState([]);
+
     const [actionList, setActionList] = React.useState([
         "Manage Products",
         "Manage Orders",
@@ -58,24 +77,19 @@ const AdminPage = () => {
         "View Reports"
     ]);
 
+
+    const handleChangeAction = (action) => {
+        setSelectedAction(action);
+        setSearchValue("");
+        setOrderSearchValue("");
+        setUserSearchValue("");
+    }
+
+
     const handleAdminLogin = async () => {
 
-        await fetch('http://localhost:5000/admin', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ password }),
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data) {
-                setIsAdmin(true);
-            } else {
-                alert("Invalid password");
-                setPassword("");
-            }
-        })
+       await AdminMethods.handleAdminLogin(password, setPassword, setIsAdmin);
+    
     }
 
     const handleAdminClose = () => {
@@ -85,31 +99,91 @@ const AdminPage = () => {
         window.location.href = "/";
     }
 
-    const handleAdminSearchProduct = async () => {
 
+    const handleAdminSearchProduct = async () => {
+        if (isAdmin) {
+            const data = await AdminMethods.handleAdminSearchProduct(setShowLogin);
+            
+            if(data?.error == null){
+                setAdminProductList(data);
+            }else{
+                alert(`Error ${data?.error}. Please try again later.`);
+            }
+        }
+    }
+    
+    
+    const handleAdminSearchProductByName = async () => {
+        if (isAdmin) {
+
+            const data = await AdminMethods.handleAdminSearchProductByName(searchValue, setShowLogin);
+            if(data?.error == null){
+                console.log(data);
+                setAdminProductList(data);
+            } else {
+                alert(`Error ${data?.error}. Please try again later.`);
+            }
+        }
+    }
+
+    const handleAdminSearchOrder = async () => {
         if (isAdmin) {
         
-            const name = `${searchValue}`.trim();
+            const data = await AdminMethods.handleAdminSearchOrderByID(setShowLogin);
 
-            await fetch('http://localhost:5000/admin/product', {
+            if(data?.error == null){
+                setAdminOrderList(data);
+            } else {
+                alert(`Error ${data?.error}. Please try again later.`);
+            }
+            
+        }
+    }
+
+    const handleAdminSearchOrderByID = async () => {
+        if(isAdmin){
+
+            const data = await AdminMethods.handleAdminSearchOrderByID(orderSearchValue, setShowLogin);
+            if(data?.error == null){
+                setAdminOrderList(data);
+            } else {
+                alert(`Error ${data?.error}. Please try again later.`);
+            }
+
+        }
+    }
+
+    const handleAdminSearchUser = async () => {
+        if (isAdmin) {
+        
+            const userName = `${userSearchValue}`.trim();
+
+            await fetch('http://localhost:5000/admin/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name }),
+                body: JSON.stringify({ userName }),
             })
             .then((response) => response.json())
             .then((data) => {
+                
                 console.log(data);
+
+                if(data?.error == "failed to login") {
+                    alert("You might be Admin but Please Login to Continue");
+                    setShowLogin(true);
+                }
+
             })
 
         }
-
     }
 
-    const handleEditProduct = () => {
+    const handleEditProduct = (product) => {
         
         setOpenProduct(true);
+        setOpenProductEdit(product);
     
     }
 
@@ -118,14 +192,14 @@ const AdminPage = () => {
     }
 
     useEffect(() => {
-
         if (isAdmin) {
             setDialogOpen(false);
+            handleAdminSearchProduct();
         } else {
             setDialogOpen(true);
         }
 
-    }, [isAdmin]);
+    }, []);
 
     return (
         <div className="AdminPageContainer">
@@ -134,39 +208,34 @@ const AdminPage = () => {
             <div className="AdminPageActions">
 
                 {
-                    actionList.map((action, index) => (
+                    isAdmin ? actionList.map((action, index) => (
                         <button 
                             key={index} 
                             className={`${seletedAction === action ? "AdminPageButtonSelected" : ""} AdminPageButton`} 
-                            onClick={() => {
-                                setSelectedAction(action);
-                                handleAdminRequest();
-                            }}
+                            onClick={() => handleChangeAction(action)}
                         >
                             {action}
                         </button>
-                    ))
+                    )) : null
                 }
 
             </div>
                 {
-                    isAdmin ? seletedAction == "Manage Products" ? 
+                    isAdmin ? 
                     
-                        <div className="AdminPageManageProductsSearch">
-                            <input 
-                                type="text" 
-                                value={searchValue}
-                                onChange={(e) => setSearchValue(e.target.value)}
-                                placeholder="Search Products" 
-                                className="AdminPageManageProductsSearchInput"
-                            />
-                            <button className="AdminPageManageProductsSearchButton" onClick={handleAdminSearchProduct}>Search</button>
-                        </div>
-
+                    seletedAction == "Manage Products" ? 
+                        <AdminSearch text="Product" searchValue={searchValue} setSearchValue={setSearchValue} handleAdminSearch={handleAdminSearchProductByName} /> :
+                    seletedAction === "Manage Orders" ?
+                        <AdminSearch text="Order ID" searchValue={orderSearchValue} setSearchValue={setOrderSearchValue} handleAdminSearch={handleAdminSearchOrderByID} /> :
+                    seletedAction === "Manage Users" ?
+                        <AdminSearch text="User" searchValue={userSearchValue} setSearchValue={setUserSearchValue} handleAdminSearch={handleAdminSearchUser} /> :
+                    seletedAction === "View Reports" ?
+                        <p>View Reports Section</p>
+                    
                     : null : null
                 }
 
-            <Dialog open={false} maxWidth="md" fullWidth={true} fullheight={true}> 
+            {/* <Dialog open={isAdmin} maxWidth="md" fullWidth={true} fullheight={true}> 
             
                 <div className="AdminPageDialogContainer">
                     <h2 className="AdminPageDialogTitle">Admin Login</h2>
@@ -183,34 +252,23 @@ const AdminPage = () => {
                     </div>
                 </div>
 
-            </Dialog>
+            </Dialog> */}
 
-            <div className="ManageProductSingleContainer">
-
-                <div className="ManageProductContainerImage">
-                    <img src="" alt="" srcset="" />
-                </div>
-                <div className="ManageProductContainerContent">
-                    <div className="ManageProductContainerContentName">
-                        <p className="ManageProductContainerContentNameHead">Head</p>
-                        <p className="ManageProductContainerContentNameDes">Descritption</p>
-                    </div>
-                </div>
-                <div className="ManageProductContainerContentPrice">
-
-                    <p>Rs. 100</p>
-
-                </div>
-                <div className="ManageProductContainerEdit" onClick={handleEditProduct}>
-                    <EditIcon />
-                </div>
-
-            </div>
+            {
+                isAdmin ? seletedAction === "Manage Products" ? <ManageProductSingleContainer product={AdminProductList} handleEditProduct={handleEditProduct} />: 
+                seletedAction === "Manage Orders" ? <p>Manage Orders Section</p> :
+                seletedAction === "Manage Users" ? <p>Manage Users Section</p> :
+                seletedAction === "View Reports" ? <p>View Reports Section</p> :
+                null : null
+            }
 
             {
                 openProduct ?
-                <ManageProducts product={product} closeIt={handleEditProductClose} />   
-                : null
+                    <ManageProducts product={openProductEdit} closeIt={handleEditProductClose} /> : null
+            }
+
+            {
+                showLogin ? <AuthenticationPage /> : null
             }
 
         </div>
