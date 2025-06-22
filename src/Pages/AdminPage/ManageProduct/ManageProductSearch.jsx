@@ -12,6 +12,14 @@ const AdminSearch = ({ searchValue, setSearchValue, handleAdminSearch, text }) =
                     className="AdminPageManageProductsSearchInput"
                 />
                 <button className="AdminPageManageProductsSearchButton" onClick={handleAdminSearch}>Search</button>
+
+                {
+
+                    text === "Product" ?
+                    <div className="AdminPageManageProductsSearchCreateProduct">
+                        <p className="AdminPageManageProductsSearchCreateProductText">Create New Product</p>
+                    </div> : null
+                }
             </div>
     );
 }

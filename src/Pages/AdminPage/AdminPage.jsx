@@ -7,44 +7,25 @@ import EditIcon from '@mui/icons-material/Edit';
 import ManageProductSingleContainer from "./ManageProduct/ManageProductSingleContainer";
 import AdminSearch from "./ManageProduct/ManageProductSearch";
 import AuthenticationPage from "../AuthenticationPage/AuthenticationPage";
+import OrderList from "./OrderList/OrderList";
 
-const product = {
-    name: "Golden Oversized",
-    finalPrice: 100,
-    secondaryPrice: 150,
-    discount: 50,
-    images: ["https://img.ltwebstatic.com/images3_pi/2024/08/29/66/1724920888e922701552ba133a6498148d393a310d_thumbnail_405x.webp", "https://img.ltwebstatic.com/images3_pi/2024/08/29/db/172492089180304768be35713ea3408c702cc1775c_thumbnail_560x.webp"],
-    category: "Oversized",
-    subCategory: "T-Shirts",
-    brand: "Brand Name",
-    description: "This is a golden oversized t-shirt.",
-    reviews: [
-        {
-            "name": "John Doe",
-            "rating": 4.5,
-            "comment": "Great product! Very comfortable and stylish.",
-            "date": "2024-08-29"
+const orderList = [
+    {
+        orderID: "12345",
+        userName: "John Doe",
+        product: [
+            { productID: "1", productName: "Product 1", quantity: 2, discount: 50, secondaryPrice: 1999, finalPrice: 50.00, color: { name: 'Red', rgba: 'red' } },
+        ],
+        feedback: {
+            star: 5,
+            comment: "Great product!"
         },
-        {
-            "name": "Jane Smith",
-            "rating": 5,
-            "comment": "Absolutely love this t-shirt! The quality is amazing.",
-            "date": "2024-08-30"
-        },
-        {
-            "name": "Alice Johnson",
-            "rating": 4,
-            "comment": "Good value for money. The fit is perfect.",
-            "date": "2024-08-31"
-        },
-        {
-            "name": "Bob Brown",
-            "rating": 3.5,
-            "comment": "Decent quality, but the color is not as expected.",
-            "date": "2024-09-01"
-        }
-    ]
-};
+        orderedOn: "2023-10-01",
+        totalAmount: 100.00,
+        status: "Delivered",
+        deliveredOn: "2023-10-02"
+    }
+];
 
 const AdminPage = () => {
 
@@ -256,7 +237,7 @@ const AdminPage = () => {
 
             {
                 isAdmin ? seletedAction === "Manage Products" ? <ManageProductSingleContainer product={AdminProductList} handleEditProduct={handleEditProduct} />: 
-                seletedAction === "Manage Orders" ? <p>Manage Orders Section</p> :
+                seletedAction === "Manage Orders" ? <OrderList /> :
                 seletedAction === "Manage Users" ? <p>Manage Users Section</p> :
                 seletedAction === "View Reports" ? <p>View Reports Section</p> :
                 null : null
