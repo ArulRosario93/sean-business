@@ -1,6 +1,6 @@
 import React from "react";
 
-const AdminSearch = ({ searchValue, setSearchValue, handleAdminSearch, text }) => {
+const AdminSearch = ({ searchValue, setSearchValue, handleAdminSearch, text, openCreateProdduct }) => {
     return (
             <div className="AdminPageManageProductsSearch">
                 <input 
@@ -16,7 +16,7 @@ const AdminSearch = ({ searchValue, setSearchValue, handleAdminSearch, text }) =
                 {
 
                     text === "Product" ?
-                    <div className="AdminPageManageProductsSearchCreateProduct">
+                    <div className="AdminPageManageProductsSearchCreateProduct" onClick={openCreateProdduct}>
                         <p className="AdminPageManageProductsSearchCreateProductText">Create New Product</p>
                     </div> : null
                 }

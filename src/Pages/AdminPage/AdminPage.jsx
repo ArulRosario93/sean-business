@@ -8,6 +8,7 @@ import ManageProductSingleContainer from "./ManageProduct/ManageProductSingleCon
 import AdminSearch from "./ManageProduct/ManageProductSearch";
 import AuthenticationPage from "../AuthenticationPage/AuthenticationPage";
 import OrderList from "./OrderList/OrderList";
+import CreateProduct from "./CreateProduct/CreateProduct";
 
 const orderList = [
     {
@@ -39,6 +40,8 @@ const AdminPage = () => {
     const [openReport, setOpenReport] = React.useState(false);
 
     const [showLogin, setShowLogin] = React.useState(false);
+
+    const [createProduct, setCreateProduct] = React.useState(false);
 
     const [dialogOpen, setDialogOpen] = React.useState(true);
     const [seletedAction, setSelectedAction] = React.useState("Manage Products");
@@ -172,6 +175,14 @@ const AdminPage = () => {
         setOpenProduct(false);
     }
 
+    const handleOpenCreateProduct = () => {
+        setCreateProduct(true);
+    }
+
+    const handleCloseCreateProduct = () => {
+        setCreateProduct(false);
+    }
+
     useEffect(() => {
         if (isAdmin) {
             setDialogOpen(false);
@@ -205,7 +216,7 @@ const AdminPage = () => {
                     isAdmin ? 
                     
                     seletedAction == "Manage Products" ? 
-                        <AdminSearch text="Product" searchValue={searchValue} setSearchValue={setSearchValue} handleAdminSearch={handleAdminSearchProductByName} /> :
+                        <AdminSearch text="Product" openCreateProdduct={handleOpenCreateProduct} searchValue={searchValue} setSearchValue={setSearchValue} handleAdminSearch={handleAdminSearchProductByName} /> :
                     seletedAction === "Manage Orders" ?
                         <AdminSearch text="Order ID" searchValue={orderSearchValue} setSearchValue={setOrderSearchValue} handleAdminSearch={handleAdminSearchOrderByID} /> :
                     seletedAction === "Manage Users" ?
@@ -251,6 +262,12 @@ const AdminPage = () => {
             {
                 showLogin ? <AuthenticationPage /> : null
             }
+
+            {
+                createProduct ? <CreateProduct closeIt={handleCloseCreateProduct} /> : null
+            }
+
+
 
         </div>
     );
