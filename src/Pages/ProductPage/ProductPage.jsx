@@ -9,6 +9,7 @@ import Divider from "../../Components/Widgets/Divider/Divider";
 import ExpandContainer from "../../Components/Widgets/ExpandContainer/ExpandContainer";
 import SuggetionItem from "../../Components/Widgets/SuggestionItem/SuggestionItem";
 import { colors } from "@mui/material";
+import ExpandContainerAboutProduct from "../../Components/Widgets/ExpandContainerAboutProduct/ExpandContainerAboutProduct";
 
 const ProductPage = ({ updateWishListCart }) => {
 
@@ -159,6 +160,7 @@ const ProductPage = ({ updateWishListCart }) => {
         handleSuggestedProducts();
     }, []);
     
+
     useEffect(() => {
         handleCheckWishList();
     }, [product]);
@@ -286,6 +288,7 @@ const ProductPage = ({ updateWishListCart }) => {
 
                     <div className="ProductPageContentKeyHighlights">
                         <div className="ProductPageContentKeyHighlightsContent">
+                            
                             <h1 className="ProductPageContentKeyHighlightsContentHead">Key Highlights</h1>
                             <div className="ProductPageContentKeyHighlightsContentDiv">
                                 <div className="ProductPageContentKeyHighlightsContentDivContainer">
@@ -318,7 +321,7 @@ const ProductPage = ({ updateWishListCart }) => {
 
                         <ExpandContainer title="Product Description" />
                         <ExpandContainer title="Returns, Exchange, & Refund Policy" />
-                        <ExpandContainer title="About Us" />
+                        <ExpandContainerAboutProduct title="About Us" />
 
 
                 </div>

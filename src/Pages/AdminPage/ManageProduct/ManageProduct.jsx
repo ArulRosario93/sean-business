@@ -30,18 +30,6 @@ const ManageProducts = ({ product, closeIt }) => {
         closeIt();
     }
 
-    const handleaddImage = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                // Assuming product is a state variable, you would update it here
-                // setProduct(prev => ({ ...prev, images: [...prev.images, reader.result] }));
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
     const handleAddImageLink = () => {
         const imageLink = prompt("Enter the image link:");
         if (imageLink) {
