@@ -121,6 +121,30 @@ class AdminMethods{
         }
         return data;
     };
+
+    static async handleServerCall(productData){
+        try {
+            const response = await fetch("http://localhost:5000/admin/createproduct", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ productData })
+            });
+            const data = await response.json();
+            console.log("Response from server:", data);
+            if (response.ok) {
+                console.log("Product created successfully:", data);
+                setFinalProduct(data);
+            } else {
+                console.error("Error creating product:", data);
+                alert(`Error creating product: ${data.error}`);
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            alert("Network error occurred while creating product.");
+        }
+    }
 }
 
 export default AdminMethods;

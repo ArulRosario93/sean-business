@@ -17,7 +17,7 @@ const ExpandContainerAboutProduct = ({ productDescription }) => {
         <div className="ExpandContainer">
 
             <div className="ExpandContainerTitle" onClick={handleClick}>
-                <p className="ExpandContainerTitleHead">{title}</p>
+                <p className="ExpandContainerTitleHead">About Us</p>
                 <ExpandMoreIcon className={open? "ExpandContainerarrow": ""} />
             </div>
             <Divider />

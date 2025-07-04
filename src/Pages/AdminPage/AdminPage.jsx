@@ -3,7 +3,6 @@ import "./AdminPage.css";
 import { Dialog } from "@mui/material";
 import AdminMethods from "./AdminMethods/AdminMethods";
 import ManageProducts from "./ManageProduct/ManageProduct";
-import EditIcon from '@mui/icons-material/Edit';
 import ManageProductSingleContainer from "./ManageProduct/ManageProductSingleContainer";
 import AdminSearch from "./ManageProduct/ManageProductSearch";
 import AuthenticationPage from "../AuthenticationPage/AuthenticationPage";
@@ -31,7 +30,7 @@ const orderList = [
 const AdminPage = () => {
 
     const [password, setPassword] = React.useState("");
-    const [isAdmin, setIsAdmin] = React.useState(true);
+    const [isAdmin, setIsAdmin] = React.useState(false);
 
     const [openProduct, setOpenProduct] = React.useState(false);
     const [openProductEdit, setOpenProductEdit] = React.useState();
@@ -68,7 +67,6 @@ const AdminPage = () => {
         setOrderSearchValue("");
         setUserSearchValue("");
     }
-
 
     const handleAdminLogin = async () => {
 
@@ -227,7 +225,7 @@ const AdminPage = () => {
                     : null : null
                 }
 
-            {/* <Dialog open={isAdmin} maxWidth="md" fullWidth={true} fullheight={true}> 
+            <Dialog open={!isAdmin} maxWidth="md" fullWidth={true} fullheight={true}> 
             
                 <div className="AdminPageDialogContainer">
                     <h2 className="AdminPageDialogTitle">Admin Login</h2>
@@ -244,7 +242,7 @@ const AdminPage = () => {
                     </div>
                 </div>
 
-            </Dialog> */}
+            </Dialog>
 
             {
                 isAdmin ? seletedAction === "Manage Products" ? <ManageProductSingleContainer product={AdminProductList} handleEditProduct={handleEditProduct} />: 

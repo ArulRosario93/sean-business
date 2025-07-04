@@ -1,12 +1,18 @@
 import React from "react";
 import './CreateProduct.css';
-
 import { Dialog } from "@mui/material";
+import PreviewCreatedProduct from "../../../Components/Widgets/PreviewCreatedProduct/PreviewCreatedProduct";
+import AdminMethods from "../AdminMethods/AdminMethods";
+
 const CreateProduct = ({ closeIt }) => {
 
     const [dialogOpen, setDialogOpen] = React.useState(true);
 
-    const [product, setProduct] = React.useState({});
+    // Final Product State
+    const [finalProduct, setFinalProduct] = React.useState({});
+
+    // Preview State
+    const [previewOpen, setPreviewOpen] = React.useState(false);
 
     const [productName, setProductName] = React.useState("");
     const [productDescriptionHeading, setProductDescriptionHeading] = React.useState("");
@@ -23,6 +29,37 @@ const CreateProduct = ({ closeIt }) => {
 
     const initialProductSizes = ["S", "M", "L", "XL", "XXL"];
 
+    const handleNameChange = (e) => {
+        setProductName(e.target.value);
+        setFinalProduct(prevProduct => ({
+            ...prevProduct,
+            name: e.target.value
+        }));
+    }
+
+    const handleFinalPriceChange = (e) => {
+        setProductFinalPrice(e.target.value);
+        setFinalProduct(prevProduct => ({
+            ...prevProduct,
+            finalPrice: e.target.value
+        }));
+    }
+
+    const handleSecondaryPriceChange = (e) => {
+        setProductSecondaryPrice(e.target.value);
+        setFinalProduct(prevProduct => ({
+            ...prevProduct,
+            secondaryPrice: e.target.value
+        }));
+    }
+
+    const handleDiscountChange = (e) => {
+        setProductDiscount(e.target.value);
+        setFinalProduct(prevProduct => ({
+            ...prevProduct,
+            discount: e.target.value
+        }));
+    }
 
     const handleProductDescriptionAddGroup = () => {
         
@@ -39,6 +76,17 @@ const CreateProduct = ({ closeIt }) => {
                 description: productDescription
             }
         ]);
+
+        setFinalProduct(prevProduct => ({
+            ...prevProduct,
+            descriptions: [
+                ...prevProduct.descriptions || [],
+                {
+                    heading: productDescriptionHeading,
+                    description: productDescription
+                }
+            ]
+        }));
         setProductDescriptionHeading("");
         setProductDescription("");
 
@@ -50,6 +98,12 @@ const CreateProduct = ({ closeIt }) => {
         if (imageLink) {
             // Assuming product is a state variable, you would update it here
             setProductImages(prevImages => [...prevImages, imageLink]);
+
+            setFinalProduct(prevProduct => ({
+                ...prevProduct,
+                images: [...prevProduct.images || [], imageLink]
+            }));
+
         }
 
     }
@@ -60,27 +114,40 @@ const CreateProduct = ({ closeIt }) => {
 
         if (sizeValue && !productSizes.includes(sizeValue)) {
             setProductSizes(prevSizes => [...prevSizes, sizeValue]);
+            setFinalProduct(prevProduct => ({
+                ...prevProduct,
+                sizes: [...prevProduct.sizes || [], sizeValue]
+            }));
             console.log("Product size added:", sizeValue);
         } else {
             
             setProductSizes(prevSizes => prevSizes.filter(size => size !== sizeValue));
+            setFinalProduct(prevProduct => ({
+                ...prevProduct,
+                sizes: prevProduct.sizes.filter(size => size !== sizeValue)
+            }));
 
         }
     }
 
     const handleProductCategory = (e) => {
         setProductCategory(e.target.value);
+        setFinalProduct(prevProduct => ({
+            ...prevProduct,
+            category: e.target.value
+        }));
         console.log("Product category selected:", e.target.value);
     }
 
     const handleProductColorChange = (e) => {
-
-        const colorValue = e.target.value;
-
-        setProductColor({name: colorValue, rgba: `${colorValue}`.toLowerCase()});
-        console.log("Product color added:", e);
+        const colorName = e.target.value;
+        
+        setProductColor({
+            name : colorName,
+            rgba: `${colorName}`.toLowerCase(),
+        })
     }
-    
+
     const handleProductAddColor = (e) => {
         
         if (`${productColor.name}`.trim() === "") {
@@ -93,11 +160,21 @@ const CreateProduct = ({ closeIt }) => {
             rgba: productColor.rgba
         }]);
 
+        setFinalProduct(prevProduct => ({
+            ...prevProduct,
+            colors: [...prevProduct.colors || [], {
+                name: productColor.name,
+                rgba: productColor.rgba
+            }]
+        }));
+
         setProductColor({ name: "", rgba: "" });
         
     }
+
     
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
 
@@ -117,26 +194,44 @@ const CreateProduct = ({ closeIt }) => {
             images: productImages,
             sizes: productSizes,
             category: productCategory,
-            colors: productColors
+            colors: productColors,
+            reviews: [],
         };
 
-        console.log("New Product Created:", newProduct);
-        
-        // Here you would typically send the newProduct to your backend or state management system
+        const res = await AdminMethods.handleServerCall(newProduct);
 
-        closeIt();
+        if (res?.error) {
+            alert(`Error creating product: ${res.error}`);
+        }       else {
+            alert("Product created successfully!");
+            closeIt();
+ 
+            // hard reload the page to see the new product
+            window.location.reload();
+        }
 
     }
-    
+
+    const handlePreviewOpen = () => {
+        setPreviewOpen(true);
+    }
+
+    const handlePreviewClose = () => {
+        setPreviewOpen(false);
+    }
 
     return (
         <div>
 
             <Dialog open={dialogOpen} fullWidth maxWidth='lg' onClose={closeIt} className="CreateProductDialog">
+
+                <PreviewCreatedProduct preview={previewOpen} closeIt={handlePreviewClose} product={finalProduct} />
                 
                 <div className="CreateProductDialogContainer">
 
                     <h2 className="CreateProductDialogContainerTitle">Create Product</h2>
+
+                    <p className="CreateProductDialogContainerPreviewBtn" onClick={handlePreviewOpen}>preview</p>
 
                     <div className="CreateProductDialogContainerContent">
                         <div className="CreateProductDialogContainerImages">
@@ -165,32 +260,29 @@ const CreateProduct = ({ closeIt }) => {
                                     id="productName" 
                                     contentEditable="true"
                                     value={productName} 
-                                    onChange={(e) => setProductName(e.target.value)} 
+                                    onChange={handleNameChange} 
                                     placeholder="Enter product name" 
                                     className="CreateProductDialogContainerFormInput"
                                 />
-
                             </div>
 
-                                <div className="CreateProductDialogContainerFormGroup">
-
-                                    <div className="CreateProductDialogContainerFormGroupLabelRow">
-                                        <label htmlFor="productDescription">Product Description</label>
-                                        <button 
-                                            className="CreateProductDialogContainerFormGroupAddDescription" onClick={handleProductDescriptionAddGroup}>+</button>
-                                    </div>
-
-                                    <input type="text" value={productDescriptionHeading} onChange={(e) => setProductDescriptionHeading(e.target.value)} placeholder="Enter Product Description Heading" name="Enter Product Description Heading" id="" />
-                                    <textarea 
-                                        id="productDescription" 
-                                        value={productDescription}
-                                        title="Product Description" 
-                                        onChange={(e) => setProductDescription(e.target.value)} 
-                                        placeholder="Enter product description" 
-                                        className="CreateProductDialogContainerFormTextarea"
-                                        ></textarea>
+                            <div className="CreateProductDialogContainerFormGroup">
+                                <div className="CreateProductDialogContainerFormGroupLabelRow">
+                                    <label htmlFor="productDescription">Product Description</label>
+                                    <button 
+                                        className="CreateProductDialogContainerFormGroupAddDescription" onClick={handleProductDescriptionAddGroup}>+</button>
                                 </div>
 
+                                <input type="text" value={productDescriptionHeading} onChange={(e) => setProductDescriptionHeading(e.target.value)} placeholder="Enter Product Description Heading" name="Enter Product Description Heading" id="" />
+                                <textarea 
+                                    id="productDescription" 
+                                    value={productDescription}
+                                    title="Product Description" 
+                                    onChange={(e) => setProductDescription(e.target.value)} 
+                                    placeholder="Enter product description" 
+                                    className="CreateProductDialogContainerFormTextarea"
+                                    ></textarea>
+                            </div>
 
                             <div className="CreateProductDialogContainerFormGroup">
                                 <label htmlFor="productFinalPrice">Final Price</label>
@@ -198,7 +290,7 @@ const CreateProduct = ({ closeIt }) => {
                                     type="number" 
                                     id="productFinalPrice" 
                                     value={productFinalPrice} 
-                                    onChange={(e) => setProductFinalPrice(e.target.value)} 
+                                    onChange={handleFinalPriceChange} 
                                     placeholder="Enter final price" 
                                     className="CreateProductDialogContainerFormInput"
                                 />
@@ -210,7 +302,7 @@ const CreateProduct = ({ closeIt }) => {
                                     type="number" 
                                     id="productSecondaryPrice" 
                                     value={productSecondaryPrice} 
-                                    onChange={(e) => setProductSecondaryPrice(e.target.value)} 
+                                    onChange={handleSecondaryPriceChange} 
                                     placeholder="Enter secondary price" 
                                     className="CreateProductDialogContainerFormInput"
                                 />
@@ -222,7 +314,7 @@ const CreateProduct = ({ closeIt }) => {
                                     type="number" 
                                     id="productDiscount" 
                                     value={productDiscount} 
-                                    onChange={(e) => setProductDiscount(e.target.value)} 
+                                    onChange={handleDiscountChange} 
                                     placeholder="Enter discount percentage" 
                                     className="CreateProductDialogContainerFormInput"
                                 />

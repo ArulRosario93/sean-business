@@ -14,7 +14,7 @@ const ManageProductSingleContainer = ({ product, handleEditProduct }) => {
                     <div className="ManageProductContainerContent">
                         <div className="ManageProductContainerContentName">
                             <p className="ManageProductContainerContentNameHead">{item?.name}</p>
-                            <p className="ManageProductContainerContentNameDes">{item?.description}</p>
+                            {/* <p className="ManageProductContainerContentNameDes">{}</p> */}
                         </div>
                     </div>
                     <div className="ManageProductContainerContentPrice">

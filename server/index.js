@@ -140,6 +140,23 @@ const getOrderById = async (orderId) => {
     }
 }
 
+const createProduct = async (productData) => {
+    
+    // Create a reference to the 'products' collection in Firestore
+    const productsRef = collection(dbApp, 'products');
+
+    // Add a new document to the 'products' collection with the provided product data
+    const docRef = await addDoc(productsRef, {
+        ...productData,
+        timestamp: new Date(),
+    });
+
+    console.log("Product created successfully:", docRef.id);
+    
+    // Return the ID of the newly created product
+    return true;
+}
+
 app.post('/products/name', async (req, res) => {
     const { name } = req.body;
     
@@ -360,9 +377,20 @@ app.post("/admin/orders/id", async (req, res) => {
         res.status(500).json({ error: error.message });
         
     }
+});
 
-})
+app.post("/admin/createproduct", async (req, res) => {
+    const { productData } = req.body;
 
+    try {
+        const newProduct = await createProduct(productData);
+        console.log("New product created:", newProduct);
+        res.json(newProduct);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+
+});
 
 app.get('/', (req, res) => {
 
