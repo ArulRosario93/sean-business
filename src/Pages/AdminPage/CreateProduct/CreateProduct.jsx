@@ -205,11 +205,10 @@ const CreateProduct = ({ closeIt }) => {
         }       else {
             alert("Product created successfully!");
             closeIt();
- 
+
             // hard reload the page to see the new product
             window.location.reload();
         }
-
     }
 
     const handlePreviewOpen = () => {
@@ -226,7 +225,7 @@ const CreateProduct = ({ closeIt }) => {
             <Dialog open={dialogOpen} fullWidth maxWidth='lg' onClose={closeIt} className="CreateProductDialog">
 
                 <PreviewCreatedProduct preview={previewOpen} closeIt={handlePreviewClose} product={finalProduct} />
-                
+
                 <div className="CreateProductDialogContainer">
 
                     <h2 className="CreateProductDialogContainerTitle">Create Product</h2>
@@ -250,10 +249,9 @@ const CreateProduct = ({ closeIt }) => {
                                 <label htmlFor="file">+</label>
                             </div>
                         </div>
+
                         <div className="CreateProductDialogContainerForm">
-
                             <div className="CreateProductDialogContainerFormGroup">
-
                                 <label htmlFor="productName">Product Name</label>
                                 <input 
                                     type="text" 
@@ -324,17 +322,14 @@ const CreateProduct = ({ closeIt }) => {
                                 <label htmlFor="productCategory">Category</label>
                                 <select id="productCategory" value={productCategory} onChange={handleProductCategory} className="CreateProductDialogContainerFormInput">
                                     <option value="clothing">Clothing</option>
-                                    <option value="electronics">Electronics</option>
-                                    <option value="home_appliances">Home Appliances</option>
+                                    <option value="electronics">Traditional</option>
+                                    <option value="home_appliances">Sarcastic</option>
                                 </select>
-
                             </div>
 
                             <div className="CreateProductDialogContainerFormGroup">
                                 <label htmlFor="productSize">Select Sizes</label>
-
                                 <div className="CreateProductDialogContainerFormGroupProductSizeContainer">
-
                                     {
                                         initialProductSizes.map((size, index) => (
                                             <div className={productSizes.includes(size) ? "CreateProductDialogContainerFormGroupProductSizeSelected" : "CreateProductDialogContainerFormGroupProductSize"} onClick={() => handleProductSizes(size)} key={index}>
