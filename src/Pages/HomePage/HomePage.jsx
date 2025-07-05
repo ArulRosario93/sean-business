@@ -11,7 +11,7 @@ const HomePage = () => {
 
     const handlefunction = async (e) => {
         // Fetch data from the server (if needed)
-        const res = await fetch('http://localhost:5000/products', {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

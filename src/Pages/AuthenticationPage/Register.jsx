@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import "./AuthenticationPage.css";
+// import "dotenv/config"; // Ensure you have dotenv installed and configured
 
 const Register = ({ handleLogin }) => {
 
@@ -12,7 +13,7 @@ const Register = ({ handleLogin }) => {
     const handleData = async () => {
 
         // Login through server
-        await fetch('http://localhost:5000/userregister', {
+        await fetch(`${import.meta.env.VITE_SERVER_URL}/userregister`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

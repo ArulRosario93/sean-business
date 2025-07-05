@@ -9,24 +9,6 @@ import AuthenticationPage from "../AuthenticationPage/AuthenticationPage";
 import OrderList from "./OrderList/OrderList";
 import CreateProduct from "./CreateProduct/CreateProduct";
 
-const orderList = [
-    {
-        orderID: "12345",
-        userName: "John Doe",
-        product: [
-            { productID: "1", productName: "Product 1", quantity: 2, discount: 50, secondaryPrice: 1999, finalPrice: 50.00, color: { name: 'Red', rgba: 'red' } },
-        ],
-        feedback: {
-            star: 5,
-            comment: "Great product!"
-        },
-        orderedOn: "2023-10-01",
-        totalAmount: 100.00,
-        status: "Delivered",
-        deliveredOn: "2023-10-02"
-    }
-];
-
 const AdminPage = () => {
 
     const [password, setPassword] = React.useState("");
@@ -59,7 +41,6 @@ const AdminPage = () => {
         "Manage Users",
         "View Reports"
     ]);
-
 
     const handleChangeAction = (action) => {
         setSelectedAction(action);
@@ -140,7 +121,7 @@ const AdminPage = () => {
         
             const userName = `${userSearchValue}`.trim();
 
-            await fetch('http://localhost:5000/admin/users', {
+            await fetch(`${import.meta.env.VITE_SERVER_URL}/admin/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

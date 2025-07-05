@@ -9,7 +9,7 @@ class AdminMethods{
     // method to pa
     static async handleAdminLogin(password, setPassword, setIsAdmin) {
         // Check if the password is correct
-        await fetch('http://localhost:5000/admin', {
+        await fetch(`${import.meta.env.VITE_SERVER_URL}/admin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ class AdminMethods{
 
     // method to return all products
     static async handleAdminSearchProduct(setShowLogin) {
-        const res = await fetch('http://localhost:5000/admin/product', {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/admin/product`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json', 
@@ -48,7 +48,7 @@ class AdminMethods{
 
         const name = `${searchValue}`.trim();
 
-        const res = await fetch('http://localhost:5000/admin/product', {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/admin/product`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ class AdminMethods{
 
     static async handleAdminSearchProductEdit(productId, productdata) {
 
-        const res = await fetch('http://localhost:5000/admin/product/edit', {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/admin/product/edit`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ class AdminMethods{
     }
 
     static async handleAdminSearchOrder(setShowLogin) {
-        const res = await fetch('http://localhost:5000/admin/orders', {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/admin/orders`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ class AdminMethods{
 
         const id = `${orderSearchValue}`.trim();
 
-        const res = await fetch('http://localhost:5000/admin/orders/id', {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/admin/orders/id`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ class AdminMethods{
 
     static async handleServerCall(productData){
         try {
-            const response = await fetch("http://localhost:5000/admin/createproduct", {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/admin/createproduct`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

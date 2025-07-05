@@ -10,7 +10,7 @@ const Login = ({ handleRegister }) => {
     const handleData = async () => {
 
         // Login through server
-        return fetch('http://localhost:5000/userlogin', {
+        return fetch(`${import.meta.env.VITE_SERVER_URL}/userlogin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

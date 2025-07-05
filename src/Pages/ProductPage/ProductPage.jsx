@@ -35,7 +35,7 @@ const ProductPage = ({ updateWishListCart }) => {
 
     const handleProduct = async (name) => {
 
-        await fetch('http://localhost:5000/products/name', {
+        await fetch(`${import.meta.env.VITE_SERVER_URL}/products/name`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const ProductPage = ({ updateWishListCart }) => {
 
     const handleSuggestedProducts = async () => {
         // Fetch data from the server (if needed)
-        await fetch('http://localhost:5000/products', {
+        await fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
