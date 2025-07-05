@@ -8,6 +8,9 @@ class AdminMethods{
 
     // method to pa
     static async handleAdminLogin(password, setPassword, setIsAdmin) {
+
+        // console.log("Attempting to log in as admin with password:", password);
+
         // Check if the password is correct
         await fetch(`${import.meta.env.VITE_SERVER_URL}/admin`, {
             method: 'POST',
@@ -17,7 +20,15 @@ class AdminMethods{
             body: JSON.stringify({ password }),
         })
         .then((response) => response.json())
-        .then((data) => {
+        .then(async (data) => {
+
+            console.log("PASSWORD SENT:", password);
+            console.log("PASSWORD GOT:", data);
+            console.log("PASSWORD   :", data == password);
+
+            const hash = bcrypt.hashSync(password, 10); // Hash the password from environment variable
+            console.log("HASHED PASSWORD:", hash);
+
             if (data) {
                 setIsAdmin(true);
             } else {

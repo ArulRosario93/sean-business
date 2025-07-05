@@ -12,7 +12,7 @@ import CreateProduct from "./CreateProduct/CreateProduct";
 const AdminPage = () => {
 
     const [password, setPassword] = React.useState("");
-    const [isAdmin, setIsAdmin] = React.useState(false);
+    const [isAdmin, setIsAdmin] = React.useState(true);
 
     const [openProduct, setOpenProduct] = React.useState(false);
     const [openProductEdit, setOpenProductEdit] = React.useState();
@@ -51,8 +51,9 @@ const AdminPage = () => {
 
     const handleAdminLogin = async () => {
 
-       await AdminMethods.handleAdminLogin(password, setPassword, setIsAdmin);
-    
+        // console.log("Attempting to log in as admin with password:", password);
+       await AdminMethods.handleAdminLogin(password.trim(), setPassword, setIsAdmin);
+
     }
 
     const handleAdminClose = () => {
